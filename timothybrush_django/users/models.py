@@ -10,7 +10,7 @@ from timothybrush_django.users.managers import UserManager
 class User(AbstractUser):
 
     PROVINCE_CHOICES = [
-        ('', 'Select Province/State'),  # Add an empty option if needed
+        ('', 'Select Province/State'),
         ('AB', 'Alberta'),
         ('BC', 'British Columbia'),
         ('MB', 'Manitoba'),
