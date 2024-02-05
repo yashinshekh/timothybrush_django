@@ -602,12 +602,21 @@ video {
   position: static;
 }
 
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .mb-1 {
   margin-bottom: 0.25rem;
 }
 
 .mr-auto {
   margin-right: auto;
+}
+
+.ml-auto {
+  margin-left: auto;
 }
 
 .block {
@@ -618,6 +627,10 @@ video {
   display: inline;
 }
 
+.flex {
+  display: flex;
+}
+
 .table {
   display: table;
 }
@@ -626,8 +639,51 @@ video {
   display: none;
 }
 
+.h-6 {
+  height: 1.5rem;
+}
+
+.w-6 {
+  width: 1.5rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.space-x-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1rem * var(--tw-space-x-reverse));
+  margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.bg-blue-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+}
+
+.p-4 {
+  padding: 1rem;
 }
 
 .text-3xl {
@@ -635,8 +691,18 @@ video {
   line-height: 2.25rem;
 }
 
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
 .font-bold {
   font-weight: 700;
+}
+
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .underline {
@@ -657,4 +723,36 @@ video {
 
 .\[a-zA-Z\:\\-\\\.\] {
   a-z-a--z: \-\.;
+}
+
+@media (min-width: 768px) {
+  .md\:block {
+    display: block;
+  }
+
+  .md\:flex {
+    display: flex;
+  }
+
+  .md\:hidden {
+    display: none;
+  }
+
+  .md\:w-auto {
+    width: auto;
+  }
+
+  .md\:flex-row {
+    flex-direction: row;
+  }
+
+  .md\:items-center {
+    align-items: center;
+  }
+
+  .md\:space-x-4 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(1rem * var(--tw-space-x-reverse));
+    margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+  }
 }

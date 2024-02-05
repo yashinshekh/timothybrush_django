@@ -1,0 +1,25 @@
+<header class="bg-blue-500 p-4">
+  <div class="container mx-auto flex flex-wrap items-center justify-between">
+    <!-- Home and Shop Sections for large screens -->
+    <div class="flex items-center space-x-4">
+      <a href="#" class="text-white text-lg font-bold">Home</a>
+      <a href="#" class="text-white hidden md:block">Shop</a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button id="menuButton" class="text-white md:hidden">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+    </button>
+
+    <!-- Navigation Links -->
+    <nav id="menu" class="w-full md:flex md:items-center md:w-auto hidden">
+      <div class="flex flex-col md:flex-row md:space-x-4 ml-auto">
+        <!-- Shop Section for small screens -->
+        <a href="#" class="text-white md:hidden">Shop</a>
+        <!-- Login and Signup Sections -->
+        <a href="#" class="text-white">Login</a>
+        <a href="#" class="text-white">Signup</a>
+      </div>
+    </nav>
+  </div>
+</header>
