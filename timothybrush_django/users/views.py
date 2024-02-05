@@ -15,10 +15,11 @@ from .forms import SignupForm
 def signup_view(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
+
         if form.is_valid():
             user = form.save()
             login(request, user)  # Log in the user after signup
-            return redirect('home')  # Redirect to the home page or any desired page after successful signup
+            return redirect('home')
     else:
         form = SignupForm()
 

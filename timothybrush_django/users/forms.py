@@ -1,55 +1,21 @@
-from allauth.account.forms import SignupForm
-from allauth.socialaccount.forms import SignupForm as SocialSignupForm
-from django.contrib.auth import forms as admin_forms
-from django.contrib.auth import get_user_model
-from django.forms import EmailField
-from django.utils.translation import gettext_lazy as _
-
+# forms.py
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from .models import User
 
-# class UserAdminChangeForm(admin_forms.UserChangeForm):
-#     class Meta(admin_forms.UserChangeForm.Meta):
-#         model = User
-#         field_classes = {"email": EmailField}
-#
-#
-# class UserAdminCreationForm(admin_forms.UserCreationForm):
-#     """
-#     Form for User Creation in the Admin Area.
-#     To change user signup, see UserSignupForm and UserSocialSignupForm.
-#     """
-#
-#     class Meta(admin_forms.UserCreationForm.Meta):
-#         model = User
-#         fields = ("email",)
-#         field_classes = {"email": EmailField}
-#         error_messages = {
-#             "email": {"unique": _("This email has already been taken.")},
-#         }
-
-
-class UserSignupForm(SignupForm):
+class SignupForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'street_address', 'city', 'province_state', 'postal_code']
+        fields = ['first_name','last_name','email', 'password1', 'password2', 'name', 'street_address', 'city', 'province_state', 'postal_code']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Customize form labels or attributes if needed
-        # self.fields['province_state'].widget.attrs.update({'class': 'form-select'})
+        self.fields['email'].label = 'Email Address'
+        self.fields['province_state'].widget.attrs.update({'class': 'form-select'})  # Example: Add a CSS class to the widget
 
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.username = user.email  # Set the username to be the same as the email
-        if commit:
-            user.save()
-        return user
-
-
-
-class UserSocialSignupForm(SocialSignupForm):
-    """
-    Renders the form when user has signed up using social accounts.
-    Default fields will be added automatically.
-    See UserSignupForm otherwise.
-    """
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email and User.objects.filter(email=email).exists():
+            raise forms.ValidationError('This email address is already in use. Please use a different one.')
+        return email
