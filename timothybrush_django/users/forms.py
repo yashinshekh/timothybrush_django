@@ -31,12 +31,12 @@ from .models import User
 class UserSignupForm(SignupForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'password1', 'password2', 'street_address', 'city', 'province_state', 'postal_code']
+        fields = ['first_name', 'last_name', 'email', 'street_address', 'city', 'province_state', 'postal_code']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Customize form labels or attributes if needed
-        self.fields['province_state'].widget.attrs.update({'class': 'form-select'})
+        # self.fields['province_state'].widget.attrs.update({'class': 'form-select'})
 
     def save(self, commit=True):
         user = super().save(commit=False)
