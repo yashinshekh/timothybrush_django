@@ -1,14 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  {% for product in products %}
-    <div>
-      <h2>{{ product.name }}</h2>
-      <p>{{ product.description }}</p>
-      <p>${{ product.price }}</p>
-      {% if product.image %}
-        <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100">  <!-- Adjust width as necessary -->
-      {% endif %}
-    </div>
-  {% endfor %}
+  {% if products %}
+    {% for product in products %}
+      <div>
+        <h2>{{ product.name }}</h2>
+        <p>{{ product.description }}</p>
+        <p>${{ product.price }}</p>
+        {% if product.image %}
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100">  <!-- Adjust width as necessary -->
+        {% endif %}
+      </div>
+    {% endfor %}
+
+  {% else %}
+    <p>No product in database.</p>
+  {% endif %}
 {% endblock %}
