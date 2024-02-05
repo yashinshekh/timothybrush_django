@@ -5,7 +5,24 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
 
-User = get_user_model()
+# User = get_user_model()
+
+from django.contrib.auth import login
+from django.shortcuts import render,redirect
+from .models import User
+from .forms import SignupForm
+
+def signup_view(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Log in the user after signup
+            return redirect('home')  # Redirect to the home page or any desired page after successful signup
+    else:
+        form = SignupForm()
+
+    return render(request, 'account/signup.html', {'form': form})
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):

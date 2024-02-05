@@ -5,36 +5,46 @@ from django.contrib.auth import get_user_model
 from django.forms import EmailField
 from django.utils.translation import gettext_lazy as _
 
-User = get_user_model()
+from .models import User
 
-
-class UserAdminChangeForm(admin_forms.UserChangeForm):
-    class Meta(admin_forms.UserChangeForm.Meta):
-        model = User
-        field_classes = {"email": EmailField}
-
-
-class UserAdminCreationForm(admin_forms.UserCreationForm):
-    """
-    Form for User Creation in the Admin Area.
-    To change user signup, see UserSignupForm and UserSocialSignupForm.
-    """
-
-    class Meta(admin_forms.UserCreationForm.Meta):
-        model = User
-        fields = ("email",)
-        field_classes = {"email": EmailField}
-        error_messages = {
-            "email": {"unique": _("This email has already been taken.")},
-        }
+# class UserAdminChangeForm(admin_forms.UserChangeForm):
+#     class Meta(admin_forms.UserChangeForm.Meta):
+#         model = User
+#         field_classes = {"email": EmailField}
+#
+#
+# class UserAdminCreationForm(admin_forms.UserCreationForm):
+#     """
+#     Form for User Creation in the Admin Area.
+#     To change user signup, see UserSignupForm and UserSocialSignupForm.
+#     """
+#
+#     class Meta(admin_forms.UserCreationForm.Meta):
+#         model = User
+#         fields = ("email",)
+#         field_classes = {"email": EmailField}
+#         error_messages = {
+#             "email": {"unique": _("This email has already been taken.")},
+#         }
 
 
 class UserSignupForm(SignupForm):
-    """
-    Form that will be rendered on a user sign up section/screen.
-    Default fields will be added automatically.
-    Check UserSocialSignupForm for accounts created from social.
-    """
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'password1', 'password2', 'street_address', 'city', 'province_state', 'postal_code']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Customize form labels or attributes if needed
+        self.fields['province_state'].widget.attrs.update({'class': 'form-select'})
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.username = user.email  # Set the username to be the same as the email
+        if commit:
+            user.save()
+        return user
+
 
 
 class UserSocialSignupForm(SocialSignupForm):
