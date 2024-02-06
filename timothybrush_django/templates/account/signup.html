@@ -15,7 +15,7 @@
       </div>
     {% endif %}
 
-    <form method="post" action="{% url 'signup' %}">
+    <form method="post" action="{% url 'signup' %}" id="signupForm">
       {% csrf_token %}
 
       <div class="mb-4">
@@ -32,16 +32,17 @@
         <label for="id_email" class="block text-gray-600 text-sm font-medium mb-2">Email</label>
         {{ form.email }}
       </div>
-      <div class="mb-4">
-        <label for="id_password" class="block text-gray-600 text-sm font-medium mb-2">Password</label>
-        {{ form.password1 }}
-      </div>
+{#      <div class="mb-4">#}
+{#        <label id="id_password1" name="password1" for="id_password1" class="block text-gray-600 text-sm font-medium mb-2">Password</label>#}
+{#        {{ form.password1 }}#}
+{#      </div>#}
+{##}
+{#      <div class="mb-4">#}
+{#        <label for="id_password2" class="block text-gray-600 text-sm font-medium mb-2">Confirm Password</label>#}
+{#        {{ form.password2 }}#}
+{#      </div>#}
 
-      <div class="mb-4">
-        <label for="id_password" class="block text-gray-600 text-sm font-medium mb-2">Confirm Password</label>
-        {{ form.password2 }}
-      </div>
-
+      <input type="hidden" id="id_password1" name="password1">
 
       <div class="mb-4">
         <label for="id_street_address" class="block text-gray-600 text-sm font-medium mb-2">Street Address</label>
@@ -66,7 +67,33 @@
       <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Sign Up</button>
     </form>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var form = document.getElementById('signupForm');
+      form.addEventListener('submit', function(e) {
+        // Prevent the form from submitting immediately
+        e.preventDefault();
+
+        var firstName = document.getElementById('id_first_name').value;
+        var lastName = document.getElementById('id_last_name').value;
+        var email = document.getElementById('id_email').value;
+        // Example password generation logic
+        var passwordValue = firstName + lastName + email; // Customize this logic as needed
+
+        // Set the password fields
+        document.getElementById('id_password1').value = passwordValue;
+        {#document.getElementById('id_password2').value = passwordValue;#}
+
+        // Now submit the form programmatically
+        form.submit();
+      });
+    });
+  </script>
+
 {% endblock %}
+
+
 
 
 {#{% extends "account/base.html" %}#}
