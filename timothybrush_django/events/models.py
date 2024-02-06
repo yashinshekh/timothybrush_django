@@ -13,11 +13,11 @@ class Event(models.Model):
 class SubEvent(models.Model):
     event = models.ForeignKey(Event, related_name='subevents', on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='subevent_images/', blank=True, null=True)  # For storing subevent images
+    image = models.ImageField(upload_to='subevent_images/', blank=True, null=True)
     subevent_date = models.DateTimeField(auto_now_add=True)
     description = models.TextField()
-    is_free = models.BooleanField(default=True)  # Indicates if the subevent is free
-    price = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)  # Price for paid subevents
+    is_free = models.BooleanField(default=True)
+    price = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
 
 
     def __str__(self):
@@ -29,7 +29,7 @@ class Attendee(models.Model):
     registered_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('user', 'subevent')  # Ensure a user can't register for the same subevent twice
+        unique_together = ('user', 'subevent')
 
     def __str__(self):
         return f"{self.user} attending {self.subevent}"
