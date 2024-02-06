@@ -14,8 +14,11 @@ class SubEvent(models.Model):
     event = models.ForeignKey(Event, related_name='subevents', on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     image = models.ImageField(upload_to='subevent_images/', blank=True, null=True)  # For storing subevent images
-    subevent_date = models.DateTimeField()
+    subevent_date = models.DateTimeField(auto_now_add=True)
     description = models.TextField()
+    is_free = models.BooleanField(default=True)  # Indicates if the subevent is free
+    price = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)  # Price for paid subevents
+
 
     def __str__(self):
         return f"{self.event.name} - {self.name}"
