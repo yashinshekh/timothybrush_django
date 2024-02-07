@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mx-auto px-4 py-8" x-data="{ hovered: false }">
+    <h1 class="text-2xl font-bold mb-4">{{ event.name }} Sub-Events</h1>
+    <div class="grid md:grid-cols-4 gap-4">
+      {% for sub_event in sub_events %}
+        <div class="relative bg-white rounded-lg overflow-hidden shadow-md mb-4" @mouseenter="hovered = true" @mouseleave="hovered = false" style="height: 400px;"> <!-- Adjust height as necessary -->
+          <div class="w-full h-full transition-opacity duration-300" :class="{'opacity-50': hovered, 'opacity-100': !hovered}">
+            {% if sub_event.image %}
+              <img src="{{ sub_event.image.url }}" alt="{{ sub_event.name }}" class="w-full h-64 object-cover">
+            {% endif %}
+            <div class="p-4">
+              <h3 class="font-semibold text-lg">{{ sub_event.name }}</h3>
+              <p>{{ sub_event.description }}</p>
+              <p class="text-sm">
+                {{ sub_event.is_free|yesno:"Free,Pricing" }}
+                {% if not sub_event.is_free %}: ${{ sub_event.price }}{% endif %}
+              </p>
+
+            </div>
+          </div>
+          <!-- Apply Button -->
+          <button x-show="hovered"
+                  class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                  style="transition: opacity .3s;">
+            Interested
+          </button>
+        </div>
+        {% empty %}
+        <p>No sub-events found for this event.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+
+
+
+
+{% endblock %}
