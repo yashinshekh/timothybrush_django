@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+  <meta name="csrf-token" content="{{ csrf_token }}">
+
   <div class="container mx-auto px-4 py-8" x-data="{ hovered: false }">
     <h1 class="text-2xl font-bold mb-4">{{ event.name }} Sub-Events</h1>
     <div class="grid md:grid-cols-4 gap-4">
@@ -21,11 +24,33 @@
             </div>
           </div>
 
+{#          <button x-show="hovered"#}
+{#                  class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"#}
+{#                  style="transition: opacity .3s;">#}
+{#            Interested#}
+{#          </button>#}
+
+        {% if sub_event.is_free %}
           <button x-show="hovered"
-                  class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                  hx-post="{% url 'add_to_attendees' sub_event.id %}"
+                  hx-trigger="click"
+                  class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-opacity duration-300"
                   style="transition: opacity .3s;">
             Interested
           </button>
+          <!-- Fallback button for paid events, initiating the payment process -->
+
+        {% else %}
+
+          <a href="{% if not sub_event.is_free %}{% endif %}"
+             x-show="hovered"
+             class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-opacity duration-300"
+             style="transition: opacity .3s;">
+            Join (Paid)
+          </a>
+
+        {% endif %}
+
         </div>
         {% empty %}
         <p>No sub-events found for this event.</p>
@@ -33,8 +58,11 @@
     </div>
   </div>
 
-
-
+  <script>
+    document.addEventListener('htmx:configRequest', (event) => {
+      event.detail.headers['X-CSRFToken'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    });
+  </script>
 
 
 {% endblock %}
