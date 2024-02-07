@@ -10,10 +10,23 @@ def events(request):
     return render(request,'events/event.html',{'events':events})
 
 
-def sub_events(requests,id):
+def sub_events(request,id):
     event = get_object_or_404(Event, id=id)
     sub_events = SubEvent.objects.filter(event__id=id)
-    return render(requests,'events/sub_event.html',{'sub_events':sub_events,'event':event})
+
+    user_joined_subevents = []
+    if request.user.is_authenticated:
+        user_joined_subevents = Attendee.objects.filter(
+            subevent__in=sub_events,user=request.user
+        ).values_list('subevent_id',flat=True)
+
+    context = {
+        'event': event,
+        'sub_events': sub_events,
+        'user_joined_sub_events': user_joined_subevents,
+    }
+
+    return render(request,'events/sub_event.html',context)
 
 
 @require_POST

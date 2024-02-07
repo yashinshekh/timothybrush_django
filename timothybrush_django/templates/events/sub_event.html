@@ -29,8 +29,11 @@
 {#                  style="transition: opacity .3s;">#}
 {#            Interested#}
 {#          </button>#}
-
-        {% if sub_event.is_free %}
+        {% if sub_event.id in user_joined_sub_events %}
+          <span class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white px-4 py-2 rounded">
+            Joined
+          </span>
+        {% elif sub_event.is_free %}
           <button x-show="hovered"
                   hx-post="{% url 'add_to_attendees' sub_event.id %}"
                   hx-trigger="click"
