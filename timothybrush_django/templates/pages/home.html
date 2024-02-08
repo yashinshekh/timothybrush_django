@@ -2,31 +2,33 @@
 {% load static %}
 
 {% block content %}
-  <div class="container mx-auto mt-8">
-
-    <div class="flex justify-between">
-      <div>
-        <p class="text-xl font-semibold">Date:</p>
-        <p class="text-gray-700">July 15, 2024</p>
+  <div>
+    {% if wizard.form.errors %}
+      <div class="errors">
+        <p>Please correct the following errors:</p>
+        {{ wizard.form.errors }}
       </div>
-      <div>
-        <p class="text-xl font-semibold">Location:</p>
-        <p class="text-gray-700">City Hall, Example City</p>
-      </div>
-    </div>
+    {% endif %}
 
-    <div class="mt-8">
-      <p class="text-xl font-semibold">Event Description:</p>
-      <p class="text-gray-700">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget urna vel odio eleifend ultrices.
-        Integer vel dolor vel mauris laoreet mattis non ac lacus.
-      </p>
-    </div>
 
-    <div class="mt-8">
-      <img src="{% static 'images/car_event.jpg' %}" alt="Event Image" class="w/2 h-auto">
-    </div>
+    <h2>Step {{ wizard.steps.current|add:"1" }} of {{ wizard.steps.count|add:"1" }}</h2>
+    <form method="post">
+      {% csrf_token %}
 
+
+      {{ wizard.management_form }}
+      {{ wizard.form }}
+
+
+
+      {% if wizard.steps.prev %}
+        <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">First</button>
+        <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">Previous</button>
+      {% endif %}
+
+      <input type="submit" value="Next">
+    </form>
 
   </div>
+
 {% endblock %}

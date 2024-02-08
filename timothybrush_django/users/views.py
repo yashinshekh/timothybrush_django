@@ -10,7 +10,25 @@ from django.views.generic import DetailView, RedirectView, UpdateView
 from django.contrib.auth import login
 from django.shortcuts import render,redirect
 from .models import User
-from .forms import SignupForm
+# from .forms import SignupForm
+from .forms import PersonalInfoForm, VehicleInfoForm, EventsForm, PreOrderForm
+from formtools.wizard.views import SessionWizardView
+
+# def home(request):
+#     return render(request,'pages/home.html')
+
+class MultiStepFormWizard(SessionWizardView):
+    template_name = "pages/home.html"
+    form_list = [PersonalInfoForm, VehicleInfoForm, EventsForm, PreOrderForm]
+
+    def done(self, form_list, **kwargs):
+        # Process the collected form data
+        form_data = [form.cleaned_data for form in form_list]
+
+        # Example: Do something with the form_data here (e.g., save to a database, send an email, etc.)
+
+        return render(self.request, 'pages/form_completed.html', {'form_data': form_data})
+
 
 def signup_view(request):
     if request.method == 'POST':
