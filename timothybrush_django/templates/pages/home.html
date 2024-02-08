@@ -17,7 +17,12 @@
 
 
       {{ wizard.management_form }}
-      {{ wizard.form }}
+{#      {{ wizard.form }}#}
+
+      {% for field in wizard.form %}
+        <label>{{ field.name }}</label>
+        <input value="{{ form.value }}"/>
+      {% endfor %}
 
 
 
