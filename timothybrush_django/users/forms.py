@@ -62,7 +62,7 @@ class MemorabiliaForm(forms.Form):
 
 
 class PaymentForm(forms.Form):
-    confirm_payment = forms.BooleanField(required=True, label="I confirm my payment.")
+    confirm_payment = forms.BooleanField(required=True, label="Yes... I confirm that I have read and understand all terms and conditions above. *	")
 
 
     def clean(self):

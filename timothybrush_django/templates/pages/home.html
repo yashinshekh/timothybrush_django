@@ -1,10 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-11 col-sm-10 col-md-10 col-lg-6 col-xl-5 text-center p-0 mt-3 mb-2">
+        <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+          <h1 id="heading" class="text-3xl">Seaside Cruizers <span style="white-space:nowrap">2024 Registration</span></h1>
+          <p>Please complete each section to register</p>
+          <div id="msform">
+            {#          <form id="msform" method="post">#}
+
+            <!-- progressbar -->
+            <ul id="progressbar">
+              <li class="active" id="personal"><strong>Personal</strong></li>
+              <li id="vehicle"><strong>Vehicle</strong></li>
+              <li id="events"><strong>Events</strong></li>
+              <li id="merchandise"><strong>Memorabilia</strong></li>
+              <li id="payment"><strong>Payment</strong></li>
+            </ul>
+            <div class="progress">
+              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <br>
+
+            {% include 'pages/personal_form.html' with personal_form=personal_form %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,3 +1,5 @@
+<div id="form-container">
+
 <fieldset>
   <form method="post" hx-post="{% url 'events_info' %}"  hx-target="this" hx-swap="outerHTML">
     {% csrf_token %}
@@ -27,5 +29,8 @@
 
     </div>
     <input type="submit" name="next" class="next action-button" value="Next" />
+    <button type="button" hx-get="{% url 'vechicle_info' %}" hx-target="#form-container" hx-swap="innerHTML" class="previous action-button-previous">Previous</button>
   </form>
 </fieldset>
+
+</div>

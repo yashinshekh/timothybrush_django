@@ -21,10 +21,6 @@
         <p>Each participant expressly agrees to indemnify all the foregoing entities, firms, persons and bodies, of and from any and all liability, including attorney fees, occasioned or resulting from the conduct of participants or any person assisting or cooperating with the participant and under the direction and control of the participant. Management will do all in its power to ensure a successful event. We ask that you do the same. Kindly observe all Provincial and local ordinances, all safety and traffic regulations, safety rules and fire ordinances.</p>
         <p>Registering includes your approval to use photos of your car or yourself from any of Seaside Cruizers Car Club organized events in any Seaside Cruizers Car Club publication, media package, web site, or other marketing material without remuneration.</p>
         <p>By submitting this on-line form, I acknowledge I have read and agree to all rules and conditions of this event as set forth on this form, including additional rules as promulgated by the event producers and I agree to observe all rules and decisions of the event management.</p>
-{#        <div class="form-check">#}
-{#          <input name="liability" type="checkbox" class="form-check-input radio-inline" style="float: left; width: calc(100%/24)" />#}
-{#          <label class="fieldlabels">Yes... I confirm that I have read and understand all terms and conditions above. *	</label>#}
-{#        </div>#}
 
         {% for field in payment_form %}
           <div style="display: flex; align-items: center; margin-bottom: 10px;">
@@ -47,6 +43,6 @@
   </div>
 
     <button type="submit" class="next action-button">Submit</button>
-  <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+    <button type="button" hx-get="{% url 'memorabilia_info' %}" hx-target="#form-container" hx-swap="innerHTML" class="previous action-button-previous">Previous</button>
   </form>
 </fieldset>

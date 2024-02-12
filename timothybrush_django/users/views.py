@@ -34,7 +34,10 @@ def home(request):
         else:
             personal_form = PersonalForm()
 
-    return render(request, 'pages/personal_form.html', {'personal_form': personal_form})
+    if request.headers.get('HX-Request', False):
+        return render(request, 'pages/personal_form.html', {'personal_form': personal_form})
+    else:
+        return render(request, 'pages/home.html', {'personal_form': personal_form})
 
 
 def vechicle_info(request):
@@ -56,11 +59,11 @@ def vechicle_info(request):
 
         print(session_form_data)
         if session_form_data:
-            event_form = EventForm(initial=session_form_data)
+            vechicle_form = VechicleForm(initial=session_form_data)
         else:
-            event_form = EventForm()
+            vechicle_form = VechicleForm()
 
-    return render(request,'pages/event_form.html',{'event_form':event_form})
+    return render(request,'pages/vechicle_form.html',{'vechicle_form':vechicle_form})
 
 
 
@@ -82,7 +85,7 @@ def events_info(request):
     else:
         event_form_data = request.session.get('event_form_data')
         if event_form_data:
-            event_form = PersonalForm(initial=event_form_data)
+            event_form = EventForm(initial=event_form_data)
         else:
             event_form = EventForm()
 
@@ -111,7 +114,7 @@ def memorabilia_info(request):
         else:
             memorabilia_form = MemorabiliaForm()
 
-        return render(request, 'pages/events_form.html', {'memorabilia_form': memorabilia_form})
+    return render(request, 'pages/memorabilia_form.html', {'memorabilia_form': memorabilia_form})
 
 
 def payment_info(request):
