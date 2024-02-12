@@ -34,8 +34,8 @@ class EventForm(forms.Form):
     show = forms.BooleanField(
         label="Show 'n Shine ($25.00)",
         required=False,
-        disabled=True,  # This field is disabled and always checked by default as per your HTML
-        initial=True,  # Set initial value to True since it's checked by default
+        disabled=True,
+        initial=True,
         widget=forms.CheckboxInput(attrs={'class': ''})
     )
     poker = forms.BooleanField(
