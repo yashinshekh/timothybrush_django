@@ -1,6 +1,6 @@
 from django import forms
 
-class PersonalInfo(forms.Form):
+class PersonalForm(forms.Form):
     fname = forms.CharField(label='First Name',max_length=100,widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
     lname = forms.CharField(label='Last Name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
     email = forms.EmailField(label='Email Address', widget=forms.EmailInput(attrs={'placeholder': 'Email Address'}))
@@ -11,7 +11,7 @@ class PersonalInfo(forms.Form):
     postal = forms.CharField(label='Postal/Zip Code', max_length=10, widget=forms.NumberInput(attrs={'placeholder': 'Postal/Zip Code'}))
 
 
-class VechicleInfo(forms.Form):
+class VechicleForm(forms.Form):
     CAR_MAKE_CHOICES = [
         ("", "-- Select Make --"),
         ("AC", "AC"),
@@ -30,7 +30,7 @@ class VechicleInfo(forms.Form):
 
 
 
-class EventInfo(forms.Form):
+class EventForm(forms.Form):
     show = forms.BooleanField(
         label="Show 'n Shine ($25.00)",
         required=False,
@@ -55,5 +55,10 @@ class EventInfo(forms.Form):
     )
 
 
-class Memorabilia(forms.Form):
-    name = forms.CharField(label="Name")
+class MemorabiliaForm(forms.Form):
+    tshirt = forms.BooleanField(label='T-Shirt ($25.00 each)', required=False)
+    toque = forms.BooleanField(label='Toque ($20.00 each)', required=False)
+    cap = forms.BooleanField(label='Baseball Cap ($30.00 each)', required=False)
+
+
+

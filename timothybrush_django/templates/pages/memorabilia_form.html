@@ -1,29 +1,66 @@
 <fieldset>
-  <form method="post" hx-post="{% url 'vechicle_info' %}" hx-target="this" hx-swap="outerHTML">
-    {% csrf_token %}
-    <div class="form-card">
-      <div class="row">
-        <div class="col-7">
-          <h2 class="fs-title">Memorabilia Information:</h2>
-        </div>
-        <div class="col-5">
-          <h2 class="steps">Step 4 - 5</h2>
+  <div class="form-card">
+    <div class="row">
+      <div class="col-7">
+        <h2 class="fs-title">Memorabilia:</h2>
+      </div>
+      <div class="col-5">
+        <h2 class="steps">Step 4 - 5</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-7" id="">
+        <div id="shirt-image">
+          <img style="border: none; max-width: 100%;" src="https://seasidecruizers.com/wp-content/uploads/seaside_cruizers_2024_show_logo.png" alt="2024 T-shirt Logo">
         </div>
       </div>
-
-      {% for field in memorabilia_form %}
-        <div>
-          <label class="fieldlabels" for="{{ field.id_for_label }}">{{ field.label }}: *</label>
-          {{ field }}
-          {% if field.help_text %}
-            <small style="color: grey;">{{ field.help_text }}</small>
-          {% endif %}
-          {% for error in field.errors %}
-            <p style="color: red;">{{ error }}</p>
-          {% endfor %}
+      <div class="col-5">
+        <div id="merchandise-desc">
+          <p><strong>Pre-order your event T-Shirt(s), and Seaside Cruisers’ Toques, and Baseball Caps</strong> along with your vehicle registration using your credit card or PayPal to pay, and then pick them up on Show Day from our booth near the Main Stage in the center of town.</p>
+          <p><strong>Don’t risk missing out</strong> on an event t-shirt because the size or colour you want is “SOLD OUT” on Show’N Shine Day and save by pre-ordering your event t-shirt and gear.</p>
+          <table id="price-table">
+            <thead>
+            <tr>
+              <th colspan="2">Pre-ordering Prices</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>T-Shirts</td>
+              <td>$25.00</td>
+            </tr>
+            <tr>
+              <td>Toques</td>
+              <td>$20.00</td>
+            </tr>
+            <tr>
+              <td>Baseball Caps</td>
+              <td>$30.00</td>
+            </tr>
+            </tbody>
+          </table>
+          <p style="padding: 10px 0px;">Online pre-orders are only available with your registration and the before midnight April 15, 2024.</p>
         </div>
-      {% endfor %}
+        <!-- Start of Form Integration -->
+        <form method="post" hx-post="{% url 'memorabilia_info' %}" hx-target="this" hx-swap="outerHTML">
+          {% csrf_token %}
+          {% for field in memorabilia_form %}
+            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+              <label for="{{ field.id_for_label }}" class="fieldlabels" style="margin-right: 20px;">{{ field.label }}: *</label>
+              {{ field }}
+              {% if field.help_text %}
+                <small style="color: grey; margin-left: 10px;">{{ field.help_text }}</small>
+              {% endif %}
+              {% for error in field.errors %}
+                <p style="color: red; margin-left: 10px;">{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endfor %}
+          <input type="submit" name="next" class="next action-button" value="Next" />
+        </form>
+        <!-- End of Form Integration -->
+      </div>
     </div>
-    <input type="submit" name="next" class="next action-button" value="Next" />
-  </form>
+  </div>
+  <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
 </fieldset>
