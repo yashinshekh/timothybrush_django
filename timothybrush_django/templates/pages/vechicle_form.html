@@ -1,0 +1,31 @@
+{#{% block content %}#}
+  <fieldset>
+    <form method="post" hx-target="this" hx-swap="outerHTML">
+      {% csrf_token %}
+      <div class="form-card">
+        <div class="row">
+          <div class="col-7">
+            <h2 class="fs-title">Vechicle Information:</h2>
+          </div>
+          <div class="col-5">
+            <h2 class="steps">Step 2 - 5</h2>
+          </div>
+        </div>
+
+        {% for field in vechicle_form %}
+          <div>
+            <label class="fieldlabels" for="{{ field.id_for_label }}">{{ field.label }}: *</label>
+            {{ field }}
+            {% if field.help_text %}
+              <small style="color: grey;">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+              <p style="color: red;">{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+      <input type="submit" name="next" class="next action-button" value="Next" />
+    </form>
+  </fieldset>
+{#{% endblock %}#}

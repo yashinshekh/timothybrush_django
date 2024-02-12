@@ -3,14 +3,22 @@
 {% load static %}
 
 {% block content %}
+
+  <div>
+{#    <form method="post" hx-post="{% url 'home' %}">#}
+{#      <button type="submit">Submit</button>#}
+{#    </form>#}
+
+  </div>
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-11 col-sm-10 col-md-10 col-lg-6 col-xl-5 text-center p-0 mt-3 mb-2">
         <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
           <h1 id="heading" class="text-3xl">Seaside Cruizers <span style="white-space:nowrap">2024 Registration</span></h1>
           <p>Please complete each section to register</p>
-          <form id="msform" method="post">
-            {% csrf_token %}
+          <div id="msform">
+{#          <form id="msform" method="post">#}
+
             <!-- progressbar -->
             <ul id="progressbar">
               <li class="active" id="personal"><strong>Personal</strong></li>
@@ -24,338 +32,346 @@
             </div>
             <br>
             <!-- fieldsets -->
-            <fieldset>
-              <div class="form-card">
-                <div class="row">
-                  <div class="col-7">
-                    <h2 class="fs-title">Personal Information:</h2>
-                  </div>
-                  <div class="col-5">
-                    <h2 class="steps">Step 1 - 5</h2>
-                  </div>
-                </div>
-
-                {% for field in p_form %}
-                  <div>
-                    <label class="fieldlabels" for="{{ field.id_for_label }}">{{ field.label }}: *</label>
-                    {{ field }}
-                    {% if field.help_text %}
-                      <small style="color: grey;">{{ field.help_text }}</small>
-                    {% endif %}
-                    {% for error in field.errors %}
-                      <p style="color: red;">{{ error }}</p>
-                    {% endfor %}
-                  </div>
-                {% endfor %}
-
-{#                <label class="fieldlabels">First Name: *</label>#}
-{#                <input type="text" name="fname" placeholder="First Name" />#}
-{#                <label class="fieldlabels">Last Name: *</label>#}
-{#                <input type="text" name="lname" placeholder="Last Name" />#}
-{#                <label class="fieldlabels">Email Address: *</label>#}
-{#                <input type="email" name="email" placeholder="Email Address" />#}
-{#                <label class="fieldlabels">Phone Number: *</label>#}
-{#                <input type="text" name="phno" placeholder="Phone Number" />#}
-{#                <label class="fieldlabels">Street Address: *</label>#}
-{#                <input type="text" name="street" placeholder="Street Address" />#}
-{#                <label class="fieldlabels">City: *</label>#}
-{#                <input type="text" name="city" placeholder="City" />#}
-{#                <label class="fieldlabels">Province/State: *</label>#}
-{#                <input type="text" name="prov" placeholder="Province / State" />#}
-{#                <label class="fieldlabels">Postal/Zip Code: *</label>#}
-{#                <input type="password" name="postal" placeholder="Postal/Zip Code" />#}
-              </div>
-              <input type="button" name="next" class="next action-button" value="Next" />
-            </fieldset>
 
             <fieldset>
-              <div class="form-card">
-                <div class="row">
-                  <div class="col-7">
-                    <h2 class="fs-title">Vehicle Information:</h2>
-                  </div>
-                  <div class="col-5">
-                    <h2 class="steps">Step 2 - 5</h2>
-                  </div>
-                </div>
-                <label class="fieldlabels">Year: *</label>
-                <input type="text" name="year" placeholder="Year" />
-                <label class="fieldlabels">Make: *</label>
-                <select name="car_make" id="car_make" class="form-control" >
-                  <option value="" selected="" placeholder="-- Select Make --"></option>
-                  <option value="AC">AC</option>
-                  <option value="Abarth">Abarth</option>
-                  <option value="Acura">Acura</option>
-                  <option value="Aixam">Aixam</option>
-                  <option value="Alfa Romeo">Alfa Romeo</option>
-                  <option value="Arash">Arash</option>
-                  <option value="American Motors">American Motors</option>
-                  <option value="Ariel">Ariel</option>
-                  <option value="Arrinera">Arrinera</option>
-                  <option value="Artega">Artega</option>
-                  <option value="Ascari">Ascari</option>
-                  <option value="Austin">Austin</option>
-                  <option value="Austin-Healey">Austin-Healey</option>
-                  <option value="Aston Martin">Aston Martin</option>
-                  <option value="Auburn">Auburn</option>
-                  <option value="Audi">Audi</option>
-                  <option value="BMW">BMW</option>
-                  <option value="BYD">BYD</option>
-                  <option value="Bentley">Bentley</option>
-                  <option value="Berkeley">Berkeley</option>
-                  <option value="Bertone">Bertone</option>
-                  <option value="Breckland">Breckland</option>
-                  <option value="Brilliance">Brilliance</option>
-                  <option value="Bugatti">Bugatti</option>
-                  <option value="Buick">Buick</option>
-                  <option value="Cadillac">Cadillac</option>
-                  <option value="Caparo">Caparo</option>
-                  <option value="Caterham">Caterham</option>
-                  <option value="Changan">Changan</option>
-                  <option value="Chery">Chery</option>
-                  <option value="Chevrolet">Chevrolet</option>
-                  <option value="Chrysler">Chrysler</option>
-                  <option value="Citroën">Citroën</option>
-                  <option value="Corvette">Corvette</option>
-                  <option value="DAF">DAF</option>
-                  <option value="DKW">DKW</option>
-                  <option value="Dacia">Dacia</option>
-                  <option value="Daewoo">Daewoo</option>
-                  <option value="Daihatsu">Daihatsu</option>
-                  <option value="Datsun">Datsun</option>
-                  <option value="DeSoto">DeSoto</option>
-                  <option value="Dodge">Dodge</option>
-                  <option value="Dr Motor">Dr Motor</option>
-                  <option value="Elfin">Elfin</option>
-                  <option value="Emgrand">Emgrand</option>
-                  <option value="Eterniti">Eterniti</option>
-                  <option value="Ferrari">Ferrari</option>
-                  <option value="Fiat">Fiat</option>
-                  <option value="Ford">Ford</option>
-                  <option value="GAZ">GAZ</option>
-                  <option value="General Motors">General Motors</option>
-                  <option value="Geely">Geely</option>
-                  <option value="Gillet">Gillet</option>
-                  <option value="Harley-Davidson">Harley-Davidson</option>
-                  <option value="Ginetta">Ginetta</option>
-                  <option value="Great Wall">Great Wall</option>
-                  <option value="Gumpert">Gumpert</option>
-                  <option value="Hennessey">Hennessey</option>
-                  <option value="Holden">Holden</option>
-                  <option value="Honda">Honda</option>
-                  <option value="Hudson Motor">Hudson Motor</option>
-                  <option value="Humber">Humber</option>
-                  <option value="Hummer">Hummer</option>
-                  <option value="Hyundai">Hyundai</option>
-                  <option value="Infiniti">Infiniti</option>
-                  <option value="Isuzu">Isuzu</option>
-                  <option value="Jaguar">Jaguar</option>
-                  <option value="Jeep">Jeep</option>
-                  <option value="Kia">Kia</option>
-                  <option value="Koenigsegg">Koenigsegg</option>
-                  <option value="Lada">Lada</option>
-                  <option value="Lagonda">Lagonda</option>
-                  <option value="Lamborghini">Lamborghini</option>
-                  <option value="Lancia">Lancia</option>
-                  <option value="Land Rover">Land Rover</option>
-                  <option value="Lexus">Lexus</option>
-                  <option value="Lincoln">Lincoln</option>
-                  <option value="Lotus">Lotus</option>
-                  <option value="Luxgen">Luxgen</option>
-                  <option value="MG">MG</option>
-                  <option value="MINI">MINI</option>
-                  <option value="Mahindra">Mahindra</option>
-                  <option value="Maserati">Maserati</option>
-                  <option value="Maybach">Maybach</option>
-                  <option value="Mazda">Mazda</option>
-                  <option value="McLaren">McLaren</option>
-                  <option value="Mercedes-Benz">Mercedes-Benz</option>
-                  <option value="Mercury">Mercury</option>
-                  <option value="Mitsubishi">Mitsubishi</option>
-                  <option value="Morgan">Morgan</option>
-                  <option value="Mosler">Mosler</option>
-                  <option value="Monte Carlo">Monte Carlo</option>
-                  <option value="Mustang">Mustang</option>
-                  <option value="Nash">Nash</option>
-                  <option value="Nissan">Nissan</option>
-                  <option value="Noble">Noble</option>
-                  <option value="Oldsmobile">Oldsmobile</option>
-                  <option value="Opel">Opel</option>
-                  <option value="Other">Other</option>
-                  <option value="Pagani">Pagani</option>
-                  <option value="Packard">Packard</option>
-                  <option value="Panoz">Panoz</option>
-                  <option value="Plymouth">Plymouth</option>
-                  <option value="Perodua">Perodua</option>
-                  <option value="Peugeot">Peugeot</option>
-                  <option value="Piaggio">Piaggio</option>
-                  <option value="Pininfarina">Pininfarina</option>
-                  <option value="Plymouth">Plymouth</option>
-                  <option value="Pontiac">Pontiac</option>
-                  <option value="Porsche">Porsche</option>
-                  <option value="Proton">Proton</option>
-                  <option value="Renault">Renault</option>
-                  <option value="Rimac">Rimac</option>
-                  <option value="Rolls-Royce">Rolls-Royce</option>
-                  <option value="Rover">Rover</option>
-                  <option value="Ruf">Ruf</option>
-                  <option value="Saab">Saab</option>
-                  <option value="Saleen">Saleen</option>
-                  <option value="Scania-Vabis">Scania-Vabis</option>
-                  <option value="Scion">Scion</option>
-                  <option value="Seat">Seat</option>
-                  <option value="Shelby">Shelby</option>
-                  <option value="Shelby SuperCars">Shelby SuperCars</option>
-                  <option value="Studebaker">Studebaker</option>
-                  <option value="Skoda">Skoda</option>
-                  <option value="Smart">Smart</option>
-                  <option value="Spyker">Spyker</option>
-                  <option value="Ssangyong">Ssangyong</option>
-                  <option value="Subaru">Subaru</option>
-                  <option value="Suzuki">Suzuki</option>
-                  <option value="TVR">TVR</option>
-                  <option value="Tata">Tata</option>
-                  <option value="Tesla">Tesla</option>
-                  <option value="Think">Think</option>
-                  <option value="Toyota">Toyota</option>
-                  <option value="Tramontana">Tramontana</option>
-                  <option value="Triumph">Triumph</option>
-                  <option value="Troller">Troller</option>
-                  <option value="Vandenbrink">Vandenbrink</option>
-                  <option value="Vauxhall">Vauxhall</option>
-                  <option value="Vector">Vector</option>
-                  <option value="Venturi">Venturi</option>
-                  <option value="Volkswagen">Volkswagen</option>
-                  <option value="Volvo">Volvo</option>
-                  <option value="W Motors">W Motors</option>
-                  <option value="ZAZ">ZAZ</option>
-                  <option value="Zagato">Zagato</option>
-                  <option value="Zil">Zil</option>
-                </select>
-                <label class="fieldlabels">Model: *</label>
-                <input type="text" name="car_model" placeholder="Model" />
-              </div>
-              <input type="button" name="next" class="next action-button" value="Next" />
-              <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-            </fieldset>
-
-            <fieldset>
-              <div class="form-card">
-                <div class="row">
-                  <div class="col-7">
-                    <h2 class="fs-title">Events:</h2>
-                  </div>
-                  <div class="col-5">
-                    <h2 class="steps">Step 3 - 5</h2>
-                  </div>
-                </div>
-                <div class="form-check">
-                  <input name="show" type="checkbox" disabled="disabled" checked="checked" class="form-check-input" />
-                  <label class="fieldlabels">Show 'n Shine ($25.00)</label>
-                </div>
-                <div class="form-check">
-                  <input name="poker" type="checkbox" class="form-check-input" />
-                  <label class="fieldlabels">Poker Run ($5.00)</label>
-                </div>
-                <div class="form-check">
-                  <input name="cruise_night" type="checkbox" class="form-check-input" />
-                  <label class="fieldlabels">Cruise Night (Free)</label>
-                </div>
-                <div class="form-check">
-                  <input name="dance" type="checkbox" class="form-check-input" />
-                  <label class="fieldlabels">Street Dance (Free)</label>
-                </div>
-              </div>
-              <input type="button" name="next" class="next action-button" value="Next" />
-              <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-            </fieldset>
-
-            <fieldset>
-              <div class="form-card">
-                <div class="row">
-                  <div class="col-7">
-                    <h2 class="fs-title">Memorabilia:</h2>
-                  </div>
-                  <div class="col-5">
-                    <h2 class="steps">Step 4 - 5</h2>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-7" id="">
-                    <div id="shirt-image">
-                      <img style="border: none; max-width: 100%;" src="https://seasidecruizers.com/wp-content/uploads/seaside_cruizers_2024_show_logo.png" alt="2024 T-shirt Logo">
+              <form method="post" hx-post="{% url 'home' %}" hx-target="this" hx-swap="outerHTML">
+                {% csrf_token %}
+                <div class="form-card">
+                  <div class="row">
+                    <div class="col-7">
+                      <h2 class="fs-title">Personal Information:</h2>
+                    </div>
+                    <div class="col-5">
+                      <h2 class="steps">Step 1 - 5</h2>
                     </div>
                   </div>
-                  <div class="col-5">
-                    <div id="merchandise-desc">
-                      <p><strong>Pre-order your event T-Shirt(s), and Seaside Cruisers’ Toques, and Baseball Caps</strong> along with your vehicle registration using your credit card or PayPal to pay, and then pick them up on Show Day from our booth near the Main Stage in the center of town.</p>
-                      <p><strong>Don’t risk missing out </strong> on an event t-shirt because the size or colour you want is “SOLD OUT” on Show’N Shine Day and save by pre-ordering your event t-shirt and gear.</p>
-                      <table id="price-table">
-                        <thead>
-                        <tr>
-                          <th colspan="2">Pre-ordering Prices</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                          <td>T-Shirts</td>
-                          <td>$25.00</td>
-                        </tr>
-                        <tr>
-                          <td>Toques</td>
-                          <td>$20.00</td>
-                        </tr>
-                        <tr>
-                          <td>Baseball Caps</td>
-                          <td>$30.00</td>
-                        </tr>
-                        </tbody>
-                      </table>
-                      <p style="padding: 10px 0px;">Online pre-orders are only available with your registration and the before midnight April 15, 2024.</p>
+
+                  {% for field in personal_form %}
+                    <div>
+                      <label class="fieldlabels" for="{{ field.id_for_label }}">{{ field.label }}: *</label>
+                      {{ field }}
+                      {% if field.help_text %}
+                        <small style="color: grey;">{{ field.help_text }}</small>
+                      {% endif %}
+                      {% for error in field.errors %}
+                        <p style="color: red;">{{ error }}</p>
+                      {% endfor %}
                     </div>
-                  </div>
+                  {% endfor %}
                 </div>
-              </div>
-              <input type="button" name="next" class="next action-button" value="Next" />
-              <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+              <input type="submit" name="next" class="next action-button" value="Next" />
+            </form>
             </fieldset>
 
-            <fieldset>
-              <div class="form-card">
-                <div class="row">
-                  <div class="col-7">
-                    <h2 class="fs-title">Payment:</h2>
-                  </div>
-                  <div class="col-5">
-                    <h2 class="steps">Step 5 - 5</h2>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <h3>Liability Release:</h3>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <p>In consideration of the acceptance of the right to participate, participants, by execution of this entry form, release and discharge the Seaside Cruizers Car Club, the organizers, sponsors and promoters of this event, and as applicable their officers, directors, employees, members and agents of any and all known or unknown damages, injuries, losses, judgments and/or claims from any cause whatsoever that may be suffered by any participant to his or her person or property.</p>
-                    <p>Each participant expressly agrees to indemnify all the foregoing entities, firms, persons and bodies, of and from any and all liability, including attorney fees, occasioned or resulting from the conduct of participants or any person assisting or cooperating with the participant and under the direction and control of the participant. Management will do all in its power to ensure a successful event. We ask that you do the same. Kindly observe all Provincial and local ordinances, all safety and traffic regulations, safety rules and fire ordinances.</p>
-                    <p>Registering includes your approval to use photos of your car or yourself from any of Seaside Cruizers Car Club organized events in any Seaside Cruizers Car Club publication, media package, web site, or other marketing material without remuneration.</p>
-                    <p>By submitting this on-line form, I acknowledge I have read and agree to all rules and conditions of this event as set forth on this form, including additional rules as promulgated by the event producers and I agree to observe all rules and decisions of the event management.</p>
-                    <div class="form-check">
-                      <input name="liability" type="checkbox" class="form-check-input radio-inline" style="float: left; width: calc(100%/24)" />
-                      <label class="fieldlabels">Yes... I confirm that I have read and understand all terms and conditions above. *	</label>
-                    </div>
 
-                  </div>
-                  <div style="clear: left;" />
-                </div>
-                <br><br>
-              </div>
+            {#                <label class="fieldlabels">First Name: *</label>#}
+            {#                <input type="text" name="fname" placeholder="First Name" />#}
+            {#                <label class="fieldlabels">Last Name: *</label>#}
+            {#                <input type="text" name="lname" placeholder="Last Name" />#}
+            {#                <label class="fieldlabels">Email Address: *</label>#}
+            {#                <input type="email" name="email" placeholder="Email Address" />#}
+            {#                <label class="fieldlabels">Phone Number: *</label>#}
+            {#                <input type="text" name="phno" placeholder="Phone Number" />#}
+            {#                <label class="fieldlabels">Street Address: *</label>#}
+            {#                <input type="text" name="street" placeholder="Street Address" />#}
+            {#                <label class="fieldlabels">City: *</label>#}
+            {#                <input type="text" name="city" placeholder="City" />#}
+            {#                <label class="fieldlabels">Province/State: *</label>#}
+            {#                <input type="text" name="prov" placeholder="Province / State" />#}
+            {#                <label class="fieldlabels">Postal/Zip Code: *</label>#}
+            {#                <input type="password" name="postal" placeholder="Postal/Zip Code" />#}
 
-              <input type="button" name="next" class="next action-button" value="Register" />
-              <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-            </fieldset>
-          </form>
+{#            <fieldset>#}
+{#              <div class="form-card">#}
+{#                <div class="row">#}
+{#                  <div class="col-7">#}
+{#                    <h2 class="fs-title">Vehicle Information:</h2>#}
+{#                  </div>#}
+{#                  <div class="col-5">#}
+{#                    <h2 class="steps">Step 2 - 5</h2>#}
+{#                  </div>#}
+{#                </div>#}
+{#                <label class="fieldlabels">Year: *</label>#}
+{#                <input type="text" name="year" placeholder="Year" />#}
+{#                <label class="fieldlabels">Make: *</label>#}
+{#                <select name="car_make" id="car_make" class="form-control" >#}
+{#                  <option value="" selected="" placeholder="-- Select Make --"></option>#}
+{#                  <option value="AC">AC</option>#}
+{#                  <option value="Abarth">Abarth</option>#}
+{#                  <option value="Acura">Acura</option>#}
+{#                  <option value="Aixam">Aixam</option>#}
+{#                  <option value="Alfa Romeo">Alfa Romeo</option>#}
+{#                  <option value="Arash">Arash</option>#}
+{#                  <option value="American Motors">American Motors</option>#}
+{#                  <option value="Ariel">Ariel</option>#}
+{#                  <option value="Arrinera">Arrinera</option>#}
+{#                  <option value="Artega">Artega</option>#}
+{#                  <option value="Ascari">Ascari</option>#}
+{#                  <option value="Austin">Austin</option>#}
+{#                  <option value="Austin-Healey">Austin-Healey</option>#}
+{#                  <option value="Aston Martin">Aston Martin</option>#}
+{#                  <option value="Auburn">Auburn</option>#}
+{#                  <option value="Audi">Audi</option>#}
+{#                  <option value="BMW">BMW</option>#}
+{#                  <option value="BYD">BYD</option>#}
+{#                  <option value="Bentley">Bentley</option>#}
+{#                  <option value="Berkeley">Berkeley</option>#}
+{#                  <option value="Bertone">Bertone</option>#}
+{#                  <option value="Breckland">Breckland</option>#}
+{#                  <option value="Brilliance">Brilliance</option>#}
+{#                  <option value="Bugatti">Bugatti</option>#}
+{#                  <option value="Buick">Buick</option>#}
+{#                  <option value="Cadillac">Cadillac</option>#}
+{#                  <option value="Caparo">Caparo</option>#}
+{#                  <option value="Caterham">Caterham</option>#}
+{#                  <option value="Changan">Changan</option>#}
+{#                  <option value="Chery">Chery</option>#}
+{#                  <option value="Chevrolet">Chevrolet</option>#}
+{#                  <option value="Chrysler">Chrysler</option>#}
+{#                  <option value="Citroën">Citroën</option>#}
+{#                  <option value="Corvette">Corvette</option>#}
+{#                  <option value="DAF">DAF</option>#}
+{#                  <option value="DKW">DKW</option>#}
+{#                  <option value="Dacia">Dacia</option>#}
+{#                  <option value="Daewoo">Daewoo</option>#}
+{#                  <option value="Daihatsu">Daihatsu</option>#}
+{#                  <option value="Datsun">Datsun</option>#}
+{#                  <option value="DeSoto">DeSoto</option>#}
+{#                  <option value="Dodge">Dodge</option>#}
+{#                  <option value="Dr Motor">Dr Motor</option>#}
+{#                  <option value="Elfin">Elfin</option>#}
+{#                  <option value="Emgrand">Emgrand</option>#}
+{#                  <option value="Eterniti">Eterniti</option>#}
+{#                  <option value="Ferrari">Ferrari</option>#}
+{#                  <option value="Fiat">Fiat</option>#}
+{#                  <option value="Ford">Ford</option>#}
+{#                  <option value="GAZ">GAZ</option>#}
+{#                  <option value="General Motors">General Motors</option>#}
+{#                  <option value="Geely">Geely</option>#}
+{#                  <option value="Gillet">Gillet</option>#}
+{#                  <option value="Harley-Davidson">Harley-Davidson</option>#}
+{#                  <option value="Ginetta">Ginetta</option>#}
+{#                  <option value="Great Wall">Great Wall</option>#}
+{#                  <option value="Gumpert">Gumpert</option>#}
+{#                  <option value="Hennessey">Hennessey</option>#}
+{#                  <option value="Holden">Holden</option>#}
+{#                  <option value="Honda">Honda</option>#}
+{#                  <option value="Hudson Motor">Hudson Motor</option>#}
+{#                  <option value="Humber">Humber</option>#}
+{#                  <option value="Hummer">Hummer</option>#}
+{#                  <option value="Hyundai">Hyundai</option>#}
+{#                  <option value="Infiniti">Infiniti</option>#}
+{#                  <option value="Isuzu">Isuzu</option>#}
+{#                  <option value="Jaguar">Jaguar</option>#}
+{#                  <option value="Jeep">Jeep</option>#}
+{#                  <option value="Kia">Kia</option>#}
+{#                  <option value="Koenigsegg">Koenigsegg</option>#}
+{#                  <option value="Lada">Lada</option>#}
+{#                  <option value="Lagonda">Lagonda</option>#}
+{#                  <option value="Lamborghini">Lamborghini</option>#}
+{#                  <option value="Lancia">Lancia</option>#}
+{#                  <option value="Land Rover">Land Rover</option>#}
+{#                  <option value="Lexus">Lexus</option>#}
+{#                  <option value="Lincoln">Lincoln</option>#}
+{#                  <option value="Lotus">Lotus</option>#}
+{#                  <option value="Luxgen">Luxgen</option>#}
+{#                  <option value="MG">MG</option>#}
+{#                  <option value="MINI">MINI</option>#}
+{#                  <option value="Mahindra">Mahindra</option>#}
+{#                  <option value="Maserati">Maserati</option>#}
+{#                  <option value="Maybach">Maybach</option>#}
+{#                  <option value="Mazda">Mazda</option>#}
+{#                  <option value="McLaren">McLaren</option>#}
+{#                  <option value="Mercedes-Benz">Mercedes-Benz</option>#}
+{#                  <option value="Mercury">Mercury</option>#}
+{#                  <option value="Mitsubishi">Mitsubishi</option>#}
+{#                  <option value="Morgan">Morgan</option>#}
+{#                  <option value="Mosler">Mosler</option>#}
+{#                  <option value="Monte Carlo">Monte Carlo</option>#}
+{#                  <option value="Mustang">Mustang</option>#}
+{#                  <option value="Nash">Nash</option>#}
+{#                  <option value="Nissan">Nissan</option>#}
+{#                  <option value="Noble">Noble</option>#}
+{#                  <option value="Oldsmobile">Oldsmobile</option>#}
+{#                  <option value="Opel">Opel</option>#}
+{#                  <option value="Other">Other</option>#}
+{#                  <option value="Pagani">Pagani</option>#}
+{#                  <option value="Packard">Packard</option>#}
+{#                  <option value="Panoz">Panoz</option>#}
+{#                  <option value="Plymouth">Plymouth</option>#}
+{#                  <option value="Perodua">Perodua</option>#}
+{#                  <option value="Peugeot">Peugeot</option>#}
+{#                  <option value="Piaggio">Piaggio</option>#}
+{#                  <option value="Pininfarina">Pininfarina</option>#}
+{#                  <option value="Plymouth">Plymouth</option>#}
+{#                  <option value="Pontiac">Pontiac</option>#}
+{#                  <option value="Porsche">Porsche</option>#}
+{#                  <option value="Proton">Proton</option>#}
+{#                  <option value="Renault">Renault</option>#}
+{#                  <option value="Rimac">Rimac</option>#}
+{#                  <option value="Rolls-Royce">Rolls-Royce</option>#}
+{#                  <option value="Rover">Rover</option>#}
+{#                  <option value="Ruf">Ruf</option>#}
+{#                  <option value="Saab">Saab</option>#}
+{#                  <option value="Saleen">Saleen</option>#}
+{#                  <option value="Scania-Vabis">Scania-Vabis</option>#}
+{#                  <option value="Scion">Scion</option>#}
+{#                  <option value="Seat">Seat</option>#}
+{#                  <option value="Shelby">Shelby</option>#}
+{#                  <option value="Shelby SuperCars">Shelby SuperCars</option>#}
+{#                  <option value="Studebaker">Studebaker</option>#}
+{#                  <option value="Skoda">Skoda</option>#}
+{#                  <option value="Smart">Smart</option>#}
+{#                  <option value="Spyker">Spyker</option>#}
+{#                  <option value="Ssangyong">Ssangyong</option>#}
+{#                  <option value="Subaru">Subaru</option>#}
+{#                  <option value="Suzuki">Suzuki</option>#}
+{#                  <option value="TVR">TVR</option>#}
+{#                  <option value="Tata">Tata</option>#}
+{#                  <option value="Tesla">Tesla</option>#}
+{#                  <option value="Think">Think</option>#}
+{#                  <option value="Toyota">Toyota</option>#}
+{#                  <option value="Tramontana">Tramontana</option>#}
+{#                  <option value="Triumph">Triumph</option>#}
+{#                  <option value="Troller">Troller</option>#}
+{#                  <option value="Vandenbrink">Vandenbrink</option>#}
+{#                  <option value="Vauxhall">Vauxhall</option>#}
+{#                  <option value="Vector">Vector</option>#}
+{#                  <option value="Venturi">Venturi</option>#}
+{#                  <option value="Volkswagen">Volkswagen</option>#}
+{#                  <option value="Volvo">Volvo</option>#}
+{#                  <option value="W Motors">W Motors</option>#}
+{#                  <option value="ZAZ">ZAZ</option>#}
+{#                  <option value="Zagato">Zagato</option>#}
+{#                  <option value="Zil">Zil</option>#}
+{#                </select>#}
+{#                <label class="fieldlabels">Model: *</label>#}
+{#                <input type="text" name="car_model" placeholder="Model" />#}
+{#              </div>#}
+{#              <input type="button" name="next" class="next action-button" value="Next" />#}
+{#              <input type="button" name="previous" class="previous action-button-previous" value="Previous" />#}
+{#            </fieldset>#}
+{##}
+{#            <fieldset>#}
+{#              <div class="form-card">#}
+{#                <div class="row">#}
+{#                  <div class="col-7">#}
+{#                    <h2 class="fs-title">Events:</h2>#}
+{#                  </div>#}
+{#                  <div class="col-5">#}
+{#                    <h2 class="steps">Step 3 - 5</h2>#}
+{#                  </div>#}
+{#                </div>#}
+{#                <div class="form-check">#}
+{#                  <input name="show" type="checkbox" disabled="disabled" checked="checked" class="form-check-input" />#}
+{#                  <label class="fieldlabels">Show 'n Shine ($25.00)</label>#}
+{#                </div>#}
+{#                <div class="form-check">#}
+{#                  <input name="poker" type="checkbox" class="form-check-input" />#}
+{#                  <label class="fieldlabels">Poker Run ($5.00)</label>#}
+{#                </div>#}
+{#                <div class="form-check">#}
+{#                  <input name="cruise_night" type="checkbox" class="form-check-input" />#}
+{#                  <label class="fieldlabels">Cruise Night (Free)</label>#}
+{#                </div>#}
+{#                <div class="form-check">#}
+{#                  <input name="dance" type="checkbox" class="form-check-input" />#}
+{#                  <label class="fieldlabels">Street Dance (Free)</label>#}
+{#                </div>#}
+{#              </div>#}
+{#              <input type="button" name="next" class="next action-button" value="Next" />#}
+{#              <input type="button" name="previous" class="previous action-button-previous" value="Previous" />#}
+{#            </fieldset>#}
+{##}
+{#            <fieldset>#}
+{#              <div class="form-card">#}
+{#                <div class="row">#}
+{#                  <div class="col-7">#}
+{#                    <h2 class="fs-title">Memorabilia:</h2>#}
+{#                  </div>#}
+{#                  <div class="col-5">#}
+{#                    <h2 class="steps">Step 4 - 5</h2>#}
+{#                  </div>#}
+{#                </div>#}
+{#                <div class="row">#}
+{#                  <div class="col-7" id="">#}
+{#                    <div id="shirt-image">#}
+{#                      <img style="border: none; max-width: 100%;" src="https://seasidecruizers.com/wp-content/uploads/seaside_cruizers_2024_show_logo.png" alt="2024 T-shirt Logo">#}
+{#                    </div>#}
+{#                  </div>#}
+{#                  <div class="col-5">#}
+{#                    <div id="merchandise-desc">#}
+{#                      <p><strong>Pre-order your event T-Shirt(s), and Seaside Cruisers’ Toques, and Baseball Caps</strong> along with your vehicle registration using your credit card or PayPal to pay, and then pick them up on Show Day from our booth near the Main Stage in the center of town.</p>#}
+{#                      <p><strong>Don’t risk missing out </strong> on an event t-shirt because the size or colour you want is “SOLD OUT” on Show’N Shine Day and save by pre-ordering your event t-shirt and gear.</p>#}
+{#                      <table id="price-table">#}
+{#                        <thead>#}
+{#                        <tr>#}
+{#                          <th colspan="2">Pre-ordering Prices</th>#}
+{#                        </tr>#}
+{#                        </thead>#}
+{#                        <tbody>#}
+{#                        <tr>#}
+{#                          <td>T-Shirts</td>#}
+{#                          <td>$25.00</td>#}
+{#                        </tr>#}
+{#                        <tr>#}
+{#                          <td>Toques</td>#}
+{#                          <td>$20.00</td>#}
+{#                        </tr>#}
+{#                        <tr>#}
+{#                          <td>Baseball Caps</td>#}
+{#                          <td>$30.00</td>#}
+{#                        </tr>#}
+{#                        </tbody>#}
+{#                      </table>#}
+{#                      <p style="padding: 10px 0px;">Online pre-orders are only available with your registration and the before midnight April 15, 2024.</p>#}
+{#                    </div>#}
+{#                  </div>#}
+{#                </div>#}
+{#              </div>#}
+{#              <input type="button" name="next" class="next action-button" value="Next" />#}
+{#              <input type="button" name="previous" class="previous action-button-previous" value="Previous" />#}
+{#            </fieldset>#}
+{##}
+{#            <fieldset>#}
+{#              <div class="form-card">#}
+{#                <div class="row">#}
+{#                  <div class="col-7">#}
+{#                    <h2 class="fs-title">Payment:</h2>#}
+{#                  </div>#}
+{#                  <div class="col-5">#}
+{#                    <h2 class="steps">Step 5 - 5</h2>#}
+{#                  </div>#}
+{#                </div>#}
+{#                <div class="row">#}
+{#                  <div class="col-12">#}
+{#                    <h3>Liability Release:</h3>#}
+{#                  </div>#}
+{#                </div>#}
+{#                <div class="row">#}
+{#                  <div class="col-12">#}
+{#                    <p>In consideration of the acceptance of the right to participate, participants, by execution of this entry form, release and discharge the Seaside Cruizers Car Club, the organizers, sponsors and promoters of this event, and as applicable their officers, directors, employees, members and agents of any and all known or unknown damages, injuries, losses, judgments and/or claims from any cause whatsoever that may be suffered by any participant to his or her person or property.</p>#}
+{#                    <p>Each participant expressly agrees to indemnify all the foregoing entities, firms, persons and bodies, of and from any and all liability, including attorney fees, occasioned or resulting from the conduct of participants or any person assisting or cooperating with the participant and under the direction and control of the participant. Management will do all in its power to ensure a successful event. We ask that you do the same. Kindly observe all Provincial and local ordinances, all safety and traffic regulations, safety rules and fire ordinances.</p>#}
+{#                    <p>Registering includes your approval to use photos of your car or yourself from any of Seaside Cruizers Car Club organized events in any Seaside Cruizers Car Club publication, media package, web site, or other marketing material without remuneration.</p>#}
+{#                    <p>By submitting this on-line form, I acknowledge I have read and agree to all rules and conditions of this event as set forth on this form, including additional rules as promulgated by the event producers and I agree to observe all rules and decisions of the event management.</p>#}
+{#                    <div class="form-check">#}
+{#                      <input name="liability" type="checkbox" class="form-check-input radio-inline" style="float: left; width: calc(100%/24)" />#}
+{#                      <label class="fieldlabels">Yes... I confirm that I have read and understand all terms and conditions above. *	</label>#}
+{#                    </div>#}
+{##}
+{#                  </div>#}
+{#                  <div style="clear: left;" />#}
+{#                </div>#}
+{#                <br><br>#}
+{#              </div>#}
+{##}
+{#              <input type="button" name="next" class="next action-button" value="Register" />#}
+{#              <input type="button" name="previous" class="previous action-button-previous" value="Previous" />#}
+{#            </fieldset>#}
+
+
+{#          </form>#}
+          </div>
         </div>
       </div>
     </div>

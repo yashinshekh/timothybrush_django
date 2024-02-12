@@ -1,19 +1,34 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponse
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-from .forms import PersonalInfo
+from .forms import PersonalInfo,VechicleInfo
 
 User = get_user_model()
 
 
 def home(request):
-    p_form = PersonalInfo()
-    return render(request,'pages/home.html',{'p_form':p_form})
+    if request.method == 'POST':
+        personal_form = PersonalInfo(request.POST)
+        if personal_form.is_valid():
+            request.session['personal_form_data'] = personal_form.cleaned_data
+            v_form = VechicleInfo()
+            next_step_html = render_to_string('pages/vechicle_form.html', {'vechicle_form': v_form}, request=request)
+            return HttpResponse(next_step_html)
+    else:
+        session_form_data = request.session.get('personal_form_data')
+        if session_form_data:
+            personal_form = PersonalInfo(initial=session_form_data)
+        else:
+            personal_form = PersonalInfo()
+
+    return render(request, 'pages/home.html', {'personal_form': personal_form})
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
