@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
 from django.shortcuts import render, redirect
 
-from .forms import PersonalForm,VechicleForm,EventForm,MemorabiliaForm
+from .forms import PersonalForm,VechicleForm,EventForm,MemorabiliaForm,PaymentForm
 
 User = get_user_model()
 
@@ -91,17 +91,17 @@ def events_info(request):
 
 def memorabilia_info(request):
     if request.method == 'POST':
-        event_form = EventForm(request.POST)
-        if event_form.is_valid():
-            request.session['event_form_data'] = event_form.cleaned_data
+        memorabilia_form = MemorabiliaForm(request.POST)
+        if memorabilia_form.is_valid():
+            request.session['memorabilia_form_data'] = memorabilia_form.cleaned_data
 
-            memorabilia_session_form_data = request.session.get('memorabilia_form_data')
-            if memorabilia_session_form_data:
-                memorabilia_form = MemorabiliaForm(initial=memorabilia_session_form_data)
+            payment_session_form_data = request.session.get('payment_form_data')
+            if payment_session_form_data:
+                payment_form = PaymentForm(initial=payment_session_form_data)
             else:
-                memorabilia_form = MemorabiliaForm()
+                payment_form = PaymentForm()
 
-            next_step_html = render_to_string('pages/memorabilia_form.html', {'memorabilia_form': memorabilia_form}, request=request)
+            next_step_html = render_to_string('pages/payment_form.html', {'payment_form': payment_form}, request=request)
             return HttpResponse(next_step_html)
 
     else:
@@ -114,6 +114,8 @@ def memorabilia_info(request):
         return render(request, 'pages/events_form.html', {'memorabilia_form': memorabilia_form})
 
 
+def payment_info(request):
+    return HttpResponse("Payment is successfull...")
 
 
 

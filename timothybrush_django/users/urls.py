@@ -8,6 +8,7 @@ urlpatterns = [
     path('vechicle/',view=vechicle_info,name="vechicle_info"),
     path('events/',view=events_info,name="events_info"),
     path('memorabilia/',view=memorabilia_info,name="memorabilia_info"),
+    path('payment/',view=payment_info,name="payment_info"),
 
     # path("~redirect/", view=user_redirect_view, name="redirect"),
     # path("~update/", view=user_update_view, name="update"),

@@ -61,4 +61,14 @@ class MemorabiliaForm(forms.Form):
     cap = forms.BooleanField(label='Baseball Cap ($30.00 each)', required=False)
 
 
+class PaymentForm(forms.Form):
+    confirm_payment = forms.BooleanField(required=True, label="I confirm my payment.")
+
+
+    def clean(self):
+        if not self.confirm_payment:
+            raise forms.ValidationError("You must confirm the payment to proceed.")
+
+        return self.cleaned_data
+
 

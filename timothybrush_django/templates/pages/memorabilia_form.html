@@ -1,5 +1,6 @@
 <fieldset>
-  <div class="form-card">
+  <form method="post" hx-post="{% url 'memorabilia_info' %}" hx-target="this" hx-swap="outerHTML">
+      <div class="form-card">
     <div class="row">
       <div class="col-7">
         <h2 class="fs-title">Memorabilia:</h2>
@@ -40,9 +41,9 @@
             </tbody>
           </table>
           <p style="padding: 10px 0px;">Online pre-orders are only available with your registration and the before midnight April 15, 2024.</p>
-        </div>
+{#        </div>#}
         <!-- Start of Form Integration -->
-        <form method="post" hx-post="{% url 'memorabilia_info' %}" hx-target="this" hx-swap="outerHTML">
+
           {% csrf_token %}
           {% for field in memorabilia_form %}
             <div style="display: flex; align-items: center; margin-bottom: 10px;">
@@ -58,6 +59,7 @@
           {% endfor %}
           <input type="submit" name="next" class="next action-button" value="Next" />
         </form>
+
         <!-- End of Form Integration -->
       </div>
     </div>

@@ -1,0 +1,52 @@
+<fieldset>
+  <form method="post" hx-post="{% url 'payment_info' %}"  hx-target="this" hx-swap="outerHTML">
+  {% csrf_token %}
+  <div class="form-card">
+    <div class="row">
+      <div class="col-7">
+        <h2 class="fs-title">Payment:</h2>
+      </div>
+      <div class="col-5">
+        <h2 class="steps">Step 5 - 5</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <h3>Liability Release:</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <p>In consideration of the acceptance of the right to participate, participants, by execution of this entry form, release and discharge the Seaside Cruizers Car Club, the organizers, sponsors and promoters of this event, and as applicable their officers, directors, employees, members and agents of any and all known or unknown damages, injuries, losses, judgments and/or claims from any cause whatsoever that may be suffered by any participant to his or her person or property.</p>
+        <p>Each participant expressly agrees to indemnify all the foregoing entities, firms, persons and bodies, of and from any and all liability, including attorney fees, occasioned or resulting from the conduct of participants or any person assisting or cooperating with the participant and under the direction and control of the participant. Management will do all in its power to ensure a successful event. We ask that you do the same. Kindly observe all Provincial and local ordinances, all safety and traffic regulations, safety rules and fire ordinances.</p>
+        <p>Registering includes your approval to use photos of your car or yourself from any of Seaside Cruizers Car Club organized events in any Seaside Cruizers Car Club publication, media package, web site, or other marketing material without remuneration.</p>
+        <p>By submitting this on-line form, I acknowledge I have read and agree to all rules and conditions of this event as set forth on this form, including additional rules as promulgated by the event producers and I agree to observe all rules and decisions of the event management.</p>
+{#        <div class="form-check">#}
+{#          <input name="liability" type="checkbox" class="form-check-input radio-inline" style="float: left; width: calc(100%/24)" />#}
+{#          <label class="fieldlabels">Yes... I confirm that I have read and understand all terms and conditions above. *	</label>#}
+{#        </div>#}
+
+        {% for field in payment_form %}
+          <div style="display: flex; align-items: center; margin-bottom: 10px;">
+            {{ field }}
+            <label for="{{ field.id_for_label }}" class="fieldlabels" style="margin-right: 10px;">{{ field.label }}: *</label>
+
+            {% if field.help_text %}
+              <small style="color: grey; margin-left: 10px;">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+              <p style="color: red; margin-left: 10px;">{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endfor %}
+
+      </div>
+      <div style="clear: left;" />
+    </div>
+    <br><br>
+  </div>
+
+    <button type="submit" class="next action-button">Submit</button>
+  <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+  </form>
+</fieldset>
