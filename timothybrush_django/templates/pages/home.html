@@ -36,9 +36,9 @@
   <script>
     $(document).on("htmx:afterSwap", function(event) {
 
-      console.log("Swapped.")
       $("#progressbar li").removeClass('active');
 
+      console.log($(event.detail.target.id))
       var swappedElement = $(event.detail.target);
       var formId = swappedElement.is('form') ? swappedElement.attr('id') : swappedElement.find('form').attr('id');
       if (formId) {
@@ -46,12 +46,14 @@
       } else {
         console.error("Form ID not found after swap.");
       }
+
+      console.log($(event.detail.target).find('form').attr('id'))
     });
 
     function updateProgressBar(currentFormId) {
       // Reset all steps to inactive initially
 
-      console.log(currentFormId)
+      {#console.log(currentFormId)#}
       // Determine which steps to activate based on the currentFormId
       switch (currentFormId) {
         case 'personal_form':
@@ -75,6 +77,9 @@
           break;
       }
     }
+
+
+
 
   </script>
 
