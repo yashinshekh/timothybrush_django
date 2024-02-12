@@ -4,7 +4,9 @@ from .views import *
 # app_name = "users"
 
 urlpatterns = [
-    path('',view=home,name="home")
+    path('',view=home,name="home"),
+    path('vechicle/',view=vechicle_info,name="vechicle_info"),
+    path('events/',view=events_info,name="events_info"),
     # path('',view=MultiStepFormWizard.as_view(),name='home'),
     # path('signup/',view=signup_view,name='signup')
 

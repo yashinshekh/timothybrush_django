@@ -28,3 +28,32 @@ class VechicleInfo(forms.Form):
     make = forms.ChoiceField(choices=CAR_MAKE_CHOICES, label="Make", required=True)
     model = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Model'}), label="Model", required=True)
 
+
+
+class EventInfo(forms.Form):
+    show = forms.BooleanField(
+        label="Show 'n Shine ($25.00)",
+        required=False,
+        disabled=True,  # This field is disabled and always checked by default as per your HTML
+        initial=True,  # Set initial value to True since it's checked by default
+        widget=forms.CheckboxInput(attrs={'class': ''})
+    )
+    poker = forms.BooleanField(
+        label="Poker Run ($5.00)",
+        required=False,
+        widget=forms.CheckboxInput(attrs={'class': ''})
+    )
+    cruise_night = forms.BooleanField(
+        label="Cruise Night (Free)",
+        required=False,
+        widget=forms.CheckboxInput(attrs={'class': ''})
+    )
+    dance = forms.BooleanField(
+        label="Street Dance (Free)",
+        required=False,
+        widget=forms.CheckboxInput(attrs={'class': ''})
+    )
+
+
+class Memorabilia(forms.Form):
+    name = forms.CharField(label="Name")

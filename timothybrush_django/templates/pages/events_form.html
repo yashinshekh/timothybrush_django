@@ -1,0 +1,31 @@
+<fieldset>
+  <form method="post" hx-post="{% url 'events_info' %}"  hx-target="this" hx-swap="outerHTML">
+    {% csrf_token %}
+    <div class="form-card">
+      <div class="row">
+        <div class="col-7">
+          <h2 class="fs-title">Event Form:</h2>
+        </div>
+        <div class="col-5">
+          <h2 class="steps">Step 3 - 5</h2>
+        </div>
+      </div>
+
+      {% for field in event_form %}
+        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+          <label for="{{ field.id_for_label }}" class="fieldlabels" style="margin-right: 10px;">{{ field.label }}: *</label>
+          {{ field }}
+          {% if field.help_text %}
+            <small style="color: grey; margin-left: 10px;">{{ field.help_text }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <p style="color: red; margin-left: 10px;">{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+
+    </div>
+    <input type="submit" name="next" class="next action-button" value="Next" />
+  </form>
+</fieldset>
