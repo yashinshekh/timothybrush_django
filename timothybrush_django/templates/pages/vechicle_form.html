@@ -1,6 +1,6 @@
 <div id="form-container">
   <fieldset>
-    <form method="post" hx-post="{% url 'vechicle_info' %}" hx-target="this" hx-swap="outerHTML">
+    <form method="post" hx-post="{% url 'vechicle_info' %}" hx-target="this" hx-swap="outerHTML" id="vechicle_form">
       {% csrf_token %}
       <div class="form-card">
         <div class="row">

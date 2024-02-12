@@ -33,4 +33,49 @@
     </div>
   </div>
 
+  <script>
+    $(document).on("htmx:afterSwap", function(event) {
+
+      console.log("Swapped.")
+      $("#progressbar li").removeClass('active');
+
+      var swappedElement = $(event.detail.target);
+      var formId = swappedElement.is('form') ? swappedElement.attr('id') : swappedElement.find('form').attr('id');
+      if (formId) {
+        updateProgressBar(formId);
+      } else {
+        console.error("Form ID not found after swap.");
+      }
+    });
+
+    function updateProgressBar(currentFormId) {
+      // Reset all steps to inactive initially
+
+      console.log(currentFormId)
+      // Determine which steps to activate based on the currentFormId
+      switch (currentFormId) {
+        case 'personal_form':
+          $("#personal,#vehicle").addClass('active');
+          break
+        case 'vechicle_form': // Assuming the ID is 'vehicle_form' for the vehicle information form
+          $("#personal,#vehicle,#events").addClass('active');
+          break;
+        case 'events_form': // Assuming the ID is 'events_form' for the events form
+          $("#personal,#vehicle,#events,#merchandise").addClass('active');
+          break;
+        case 'merchandise': // Assuming the ID for merchandise form
+          $("#personal,#vehicle,#events,#merchandise,#payment").addClass('active');
+          break;
+        case 'payment': // Assuming the ID for payment form
+          $("#progressbar li").addClass('active'); // All steps are active for the payment form
+          break;
+              // Add more cases as needed for other forms
+        default:
+          // Handle any default case if needed
+          break;
+      }
+    }
+
+  </script>
+
 {% endblock %}
