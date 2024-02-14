@@ -60,6 +60,44 @@ class MemorabiliaForm(forms.Form):
     toque = forms.BooleanField(label='Toque ($20.00 each)', required=False)
     cap = forms.BooleanField(label='Baseball Cap ($30.00 each)', required=False)
 
+class MenstshirtForm(forms.Form):
+    SIZES = ['Small', 'Medium', 'Large', 'X-Large', '2X-Large', '3X-Large']
+    COLORS = ['Black', 'White', 'Grey']
+
+    def __init__(self, *args, **kwargs):
+        super(MenstshirtForm, self).__init__(*args, **kwargs)
+
+        for size in self.SIZES:
+            for color in self.COLORS:
+                # Creating a checkbox for selecting the T-shirt
+                self.fields[f'{size}_{color}'] = forms.BooleanField(
+                    label=f'{size} {color} ($25.00 each)', required=False)
+
+                # Creating a quantity field for each T-shirt option
+                self.fields[f'quantity_{size}_{color}'] = forms.IntegerField(
+                    label='Quantity', required=False, min_value=0, initial=0,
+                    widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
+
+    # Custom clean method to ensure quantities make sense (e.g., non-zero if selected)
+    def clean(self):
+        cleaned_data = super().clean()
+
+        for size in self.SIZES:
+            for color in self.COLORS:
+                shirt_key = f'{size}_{color}'
+                quantity_key = f'quantity_{size}_{color}'
+
+                shirt_selected = cleaned_data.get(shirt_key)
+                quantity = cleaned_data.get(quantity_key, 0)
+
+                # If a shirt is selected but quantity is 0, or vice versa, raise a validation error
+                if shirt_selected and quantity <= 0:
+                    self.add_error(quantity_key, f'Please enter a valid quantity for {size} {color} T-Shirt.')
+
+                if not shirt_selected and quantity > 0:
+                    self.add_error(shirt_key, f'Please select the {size} {color} T-Shirt before specifying a quantity.')
+
+        return cleaned_data
 
 class PaymentForm(forms.Form):
     confirm_payment = forms.BooleanField(required=True, label="Yes... I confirm that I have read and understand all terms and conditions above. *	")

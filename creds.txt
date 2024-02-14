@@ -1,0 +1,24 @@
+Here are some short-term API keys for Google Auth
+
+Client ID: 339579044833-qs624k4c4oboor4q1m8i50aikqpb7usj.apps.googleusercontent.com
+Secret Key: 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
+
+This is setup to work with  http://127.0.0.1:8000/  and  https://127.0.0.1:8443/
+With authorized callbacks to http://127.0.0.1:8000/accounts/google/login/callback/  and  https://127.0.0.1:8443/accounts/google/login/callback/
+
+
+For PayPal, the sandbox API keys that you can use are:
+
+Sandbox URL: https://sandbox.paypal.com
+
+Application
+Client ID: AQoyA9u-E1gwCWXIMOjvJK4ZG_oSmf_ZXl7On6CVwwrFfRjImyfZt1n4ewNmFVSdFQR0Q_4ZDVFBKUg8
+Secret Key: EFWxo-kWPr4Dd1_-gJEtp-eLuTRX8J0zzVrPULDia6IWxYkwZ73aAfJOvRLc-ovEKsWyMV-OWhnwBp6n
+
+Merchant
+Email: sb-kcszs29461297@business.example.com
+Password: yt2?=2CL
+
+Buyer
+Email: sb-oiyrn29476119@personal.example.com
+Password: yt2?=2CL
