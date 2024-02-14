@@ -25,7 +25,8 @@
             </div>
             <br>
 
-            {% include 'pages/personal_form.html' with personal_form=personal_form %}
+{#            {% include 'pages/personal_form.html' with personal_form=personal_form %}#}
+            {% include 'pages/memorabilia_form.html' with memorabilia_form=memorabilia_form %}
 
           </div>
         </div>
@@ -53,7 +54,7 @@
     function updateProgressBar(currentFormId) {
       // Reset all steps to inactive initially
 
-      {#console.log(currentFormId)#}
+      console.log(currentFormId)
       // Determine which steps to activate based on the currentFormId
       switch (currentFormId) {
         case 'personal_form':

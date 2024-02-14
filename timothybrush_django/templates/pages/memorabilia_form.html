@@ -1,5 +1,5 @@
 <fieldset>
-  <form method="post" hx-post="{% url 'memorabilia_info' %}" hx-target="this" hx-swap="outerHTML" id="merchandise">
+{#  <form method="post" hx-post="{% url 'memorabilia_info' %}" hx-target="this" hx-swap="outerHTML" id="merchandise">#}
       <div class="form-card">
     <div class="row">
       <div class="col-7">
@@ -41,28 +41,36 @@
             </tbody>
           </table>
           <p style="padding: 10px 0px;">Online pre-orders are only available with your registration and the before midnight April 15, 2024.</p>
-{#        </div>#}
-        <!-- Start of Form Integration -->
+        </div>
+      </div>
 
-          {% csrf_token %}
-          {% for field in memorabilia_form %}
-            <div style="display: flex; align-items: center; margin-bottom: 10px;">
-              <label for="{{ field.id_for_label }}" class="fieldlabels" style="margin-right: 20px;">{{ field.label }}: *</label>
-              {{ field }}
-              {% if field.help_text %}
-                <small style="color: grey; margin-left: 10px;">{{ field.help_text }}</small>
-              {% endif %}
-              {% for error in field.errors %}
-                <p style="color: red; margin-left: 10px;">{{ error }}</p>
+
+      <h1>Men's T-shirt $25 each</h1>
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-row">
+          {% for color in form.COLORS %}
+            <div class="col-md">
+              <h4>{{ color }}</h4>
+              {% for field in form %}
+                {% if color in field.name %}
+                  <div class="form-group">
+                    {{ field.errors }}
+                    {{ field }}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                  </div>
+                {% endif %}
               {% endfor %}
             </div>
           {% endfor %}
-          <input type="submit" name="next" class="next action-button" value="Next" />
-          <button type="button" hx-get="{% url 'events_info' %}" hx-target="#form-container" hx-swap="innerHTML" class="previous action-button-previous">Previous</button>
-        </form>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
 
-        <!-- End of Form Integration -->
-      </div>
+
+
+
     </div>
   </div>
 </fieldset>

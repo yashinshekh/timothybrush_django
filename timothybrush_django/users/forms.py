@@ -69,16 +69,25 @@ class MenstshirtForm(forms.Form):
 
         for size in self.SIZES:
             for color in self.COLORS:
-                # Creating a checkbox for selecting the T-shirt
-                self.fields[f'{size}_{color}'] = forms.BooleanField(
-                    label=f'{size} {color} ($25.00 each)', required=False)
-
-                # Creating a quantity field for each T-shirt option
-                self.fields[f'quantity_{size}_{color}'] = forms.IntegerField(
-                    label='Quantity', required=False, min_value=0, initial=0,
+                # Only creating a quantity field for each T-shirt option
+                field_name = f'quantity_{size}_{color}'
+                self.fields[field_name] = forms.IntegerField(
+                    label=f'{size} {color}',
+                    required=False, min_value=0, initial=0,max_value=10,
                     widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
 
-    # Custom clean method to ensure quantities make sense (e.g., non-zero if selected)
+
+        # for size in self.SIZES:
+        #     for color in self.COLORS:
+        #         # Creating a checkbox for selecting the T-shirt
+        #         self.fields[f'{size}_{color}'] = forms.BooleanField(
+        #             label=f'{size} {color} ($25.00 each)', required=False)
+        #
+        #         # Creating a quantity field for each T-shirt option
+        #         self.fields[f'quantity_{size}_{color}'] = forms.IntegerField(
+        #             label='Quantity', required=False, min_value=0, initial=0,
+        #             widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
+
     def clean(self):
         cleaned_data = super().clean()
 
@@ -98,6 +107,9 @@ class MenstshirtForm(forms.Form):
                     self.add_error(shirt_key, f'Please select the {size} {color} T-Shirt before specifying a quantity.')
 
         return cleaned_data
+
+
+
 
 class PaymentForm(forms.Form):
     confirm_payment = forms.BooleanField(required=True, label="Yes... I confirm that I have read and understand all terms and conditions above. *	")
