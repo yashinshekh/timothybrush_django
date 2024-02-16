@@ -77,6 +77,25 @@ class MenstshirtForm(forms.Form):
                     widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
 
 
+class WomenstshirtForm(forms.Form):
+    SIZES = ['Small', 'Medium', 'Large', 'X-Large', '2X-Large']
+    COLORS = ['Black', 'White', 'Grey']
+
+    def __init__(self, *args, **kwargs):
+        super(WomenstshirtForm, self).__init__(*args, **kwargs)
+
+        for size in self.SIZES:
+            for color in self.COLORS:
+                # Only creating a quantity field for each T-shirt option
+                field_name = f'quantity_{size}_{color}'
+                self.fields[field_name] = forms.IntegerField(
+                    label=f'{size} {color}',
+                    required=False, min_value=0, initial=0,max_value=10,
+                    widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
+
+
+
+
         # for size in self.SIZES:
         #     for color in self.COLORS:
         #         # Creating a checkbox for selecting the T-shirt
