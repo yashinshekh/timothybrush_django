@@ -77,36 +77,6 @@ class MenstshirtForm(forms.Form):
                     widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
 
 
-class WomenstshirtForm(forms.Form):
-    SIZES = ['Small', 'Medium', 'Large', 'X-Large', '2X-Large']
-    COLORS = ['Black', 'White', 'Grey']
-
-    def __init__(self, *args, **kwargs):
-        super(WomenstshirtForm, self).__init__(*args, **kwargs)
-
-        for size in self.SIZES:
-            for color in self.COLORS:
-                # Only creating a quantity field for each T-shirt option
-                field_name = f'quantity_{size}_{color}'
-                self.fields[field_name] = forms.IntegerField(
-                    label=f'{size} {color}',
-                    required=False, min_value=0, initial=0,max_value=10,
-                    widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
-
-
-
-
-        # for size in self.SIZES:
-        #     for color in self.COLORS:
-        #         # Creating a checkbox for selecting the T-shirt
-        #         self.fields[f'{size}_{color}'] = forms.BooleanField(
-        #             label=f'{size} {color} ($25.00 each)', required=False)
-        #
-        #         # Creating a quantity field for each T-shirt option
-        #         self.fields[f'quantity_{size}_{color}'] = forms.IntegerField(
-        #             label='Quantity', required=False, min_value=0, initial=0,
-        #             widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
-
     def clean(self):
         cleaned_data = super().clean()
 
@@ -127,6 +97,44 @@ class WomenstshirtForm(forms.Form):
 
         return cleaned_data
 
+
+
+class WomenstshirtForm(forms.Form):
+    SIZES = ['Small', 'Medium', 'Large', 'X-Large', '2X-Large']
+    COLORS = ['Black', 'White', 'Grey']
+
+    def __init__(self, *args, **kwargs):
+        super(WomenstshirtForm, self).__init__(*args, **kwargs)
+
+        for size in self.SIZES:
+            for color in self.COLORS:
+                # Only creating a quantity field for each T-shirt option
+                field_name = f'quantity_{size}_{color}'
+                self.fields[field_name] = forms.IntegerField(
+                    label=f'{size} {color}',
+                    required=False, min_value=0, initial=0,max_value=10,
+                    widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
+
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        for size in self.SIZES:
+            for color in self.COLORS:
+                shirt_key = f'{size}_{color}'
+                quantity_key = f'quantity_{size}_{color}'
+
+                shirt_selected = cleaned_data.get(shirt_key)
+                quantity = cleaned_data.get(quantity_key, 0)
+
+                # If a shirt is selected but quantity is 0, or vice versa, raise a validation error
+                if shirt_selected and quantity <= 0:
+                    self.add_error(quantity_key, f'Please enter a valid quantity for {size} {color} T-Shirt.')
+
+                if not shirt_selected and quantity > 0:
+                    self.add_error(shirt_key, f'Please select the {size} {color} T-Shirt before specifying a quantity.')
+
+        return cleaned_data
 
 
 
