@@ -45,9 +45,9 @@
       </div>
 
 
-      <h1>Men's T-shirt $25 each</h1>
 
       <form method="post">
+        <h1>Men's T-shirt $25 each</h1>
         {% csrf_token %}
         <div class="form-row">
           {% for color in form.COLORS %}
@@ -65,8 +65,66 @@
             </div>
           {% endfor %}
         </div>
+
+
+        <h1>Womens t-shirt ( $25 each )</h1>
+        <div class="form-row">
+          {% for color in womenstshirtform.COLORS %}
+            <div class="col-md">
+              <h4>{{ color }}</h4>
+              {% for field in form %}
+                {% if color in field.name %}
+                  <div class="form-group">
+                    {{ field.errors }}
+                    {{ field }}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+
+
+        <h1>Toque ($25 each)</h1>
+        <div class="form-row">
+          {% for field in toqueform %}
+            <div class="col-md-4">
+              <div class="form-group">
+                {{ field.errors }}
+                <div class="form-check">
+                  {{ field }}
+                  <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <h1>Basketball Cap ($25 each)</h1>
+        <div class="form-row">
+          {% for field in baseketballform %}
+            <div class="col-md-4">
+              <div class="form-group">
+                {{ field.errors }}
+                <div class="form-check">
+                  {{ field }}
+                  <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+
+
+
+
+
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
+
+
 
 
 

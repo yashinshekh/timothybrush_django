@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
 from django.shortcuts import render, redirect
 
-from .forms import PersonalForm, VechicleForm, EventForm, MemorabiliaForm, PaymentForm, MenstshirtForm
+from .forms import PersonalForm, VechicleForm, EventForm, MemorabiliaForm, PaymentForm, MenstshirtForm,WomenstshirtForm,ToquesForm,BasketballForm
 
 User = get_user_model()
 
@@ -115,11 +115,16 @@ def memorabilia_info(request):
             memorabilia_form = MemorabiliaForm()
 
     # print('here')
-    memorabilia_form = MenstshirtForm()
+    # memorabilia_form = MenstshirtForm()
     #
     # print(memorabilia_form)
 
-    return render(request, 'pages/memorabilia_form.html', {'form': memorabilia_form})
+    return render(request, 'pages/memorabilia_form.html', {
+        'form': MenstshirtForm(),
+        'womenstshirtform':WomenstshirtForm(),
+        'toqueform':ToquesForm(),
+        'baseketballform':BasketballForm()
+    })
 
 
 def payment_info(request):

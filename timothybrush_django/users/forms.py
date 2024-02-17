@@ -137,6 +137,70 @@ class WomenstshirtForm(forms.Form):
         return cleaned_data
 
 
+class ToquesForm(forms.Form):
+    COLORS = [
+        'Black Toque','Forest Green Toque','Navy Toque', 'Charcoal Toque', 'Light Grey Toque'
+    ]
+
+    def __init__(self,*args,**kwargs):
+        super(ToquesForm,self).__init__(*args,**kwargs)
+        for color in self.COLORS:
+            field_name = f'quantity_{color.replace(" ", "_")}'
+            self.fields[field_name] = forms.IntegerField(
+                label=color,
+                required=False, min_value=0, initial=0, max_value=10,
+                widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
+
+
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        for color in self.COLORS:
+            product_key = color.replace(" ", "_")
+            toque_key = f'quantity_{product_key}'
+
+            quantity = cleaned_data.get(toque_key, 0)
+
+            # If quantity is specified as 0, no error is raised, but this can be adjusted based on requirements
+            if quantity < 0:
+                self.add_error(toque_key, f'Please enter a valid quantity for {color}.')
+
+        return cleaned_data
+
+class BasketballForm(forms.Form):
+    COLORS = [
+        'Black Ball Cap','Beige Ball Cap'
+    ]
+
+    def __init__(self,*args,**kwargs):
+        super(BasketballForm,self).__init__(*args,**kwargs)
+        for color in self.COLORS:
+            field_name = f'quantity_{color.replace(" ", "_")}'
+            self.fields[field_name] = forms.IntegerField(
+                label=color,
+                required=False, min_value=0, initial=0, max_value=10,
+                widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
+
+
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        for color in self.COLORS:
+            product_key = color.replace(" ", "_")
+            toque_key = f'quantity_{product_key}'
+
+            quantity = cleaned_data.get(toque_key, 0)
+
+            # If quantity is specified as 0, no error is raised, but this can be adjusted based on requirements
+            if quantity < 0:
+                self.add_error(toque_key, f'Please enter a valid quantity for {color}.')
+
+        return cleaned_data
+
+
+
 
 class PaymentForm(forms.Form):
     confirm_payment = forms.BooleanField(required=True, label="Yes... I confirm that I have read and understand all terms and conditions above. *	")
