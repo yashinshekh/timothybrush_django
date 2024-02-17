@@ -139,11 +139,9 @@ def payment_info(request):
     return render(request,'pages/payment.html',{
         'event_session' : request.session.get('events_form_data')
     })
-    # return HttpResponse("Payment is successfull...")
 
 
 def payment_process(request):
-    # Define your payment amount, invoice id, and other details
     paypal_dict = {
         "business": PAYPAL_RECEIVER_EMAIL,
         "amount": "10.00",  # Example amount
@@ -154,7 +152,6 @@ def payment_process(request):
         "cancel_return": request.build_absolute_uri(reverse('payment_cancelled')),
     }
 
-    # Create the instance of the PayPal payment form
     # form = PayPalPaymentsForm(initial=paypal_dict)
     # context = {"form": form}
     return render(request, "payment/payment_process.html")
