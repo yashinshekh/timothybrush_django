@@ -8,6 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
 from django.shortcuts import render, redirect
 
+from config.settings.base import PAYPAL_RECEIVER_EMAIL
 from .forms import PersonalForm, VechicleForm, EventForm, MemorabiliaForm, PaymentForm, MenstshirtForm,WomenstshirtForm,ToquesForm,BasketballForm
 
 User = get_user_model()
@@ -79,7 +80,13 @@ def events_info(request):
             else:
                 memorabilia_form = MemorabiliaForm()
 
-            next_step_html = render_to_string('pages/memorabilia_form.html', {'memorabilia_form': memorabilia_form}, request=request)
+            # next_step_html = render_to_string('pages/memorabilia_form.html', {'memorabilia_form': memorabilia_form}, request=request)
+            next_step_html = render_to_string('pages/memorabilia_form.html', {
+                'form': MenstshirtForm(),
+                'womenstshirtform':WomenstshirtForm(),
+                'toqueform':ToquesForm(),
+                'baseketballform':BasketballForm()
+            }, request=request)
             return HttpResponse(next_step_html)
 
     else:
@@ -128,8 +135,29 @@ def memorabilia_info(request):
 
 
 def payment_info(request):
-    return HttpResponse("Payment is successfull...")
+    print(request.session.get('events_form_data'))
+    return render(request,'pages/payment.html',{
+        'event_session' : request.session.get('events_form_data')
+    })
+    # return HttpResponse("Payment is successfull...")
 
+
+def payment_process(request):
+    # Define your payment amount, invoice id, and other details
+    paypal_dict = {
+        "business": PAYPAL_RECEIVER_EMAIL,
+        "amount": "10.00",  # Example amount
+        "item_name": "Item Name",
+        "invoice": "unique-invoice-id",
+        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+        "return_url": request.build_absolute_uri(reverse('payment_done')),
+        "cancel_return": request.build_absolute_uri(reverse('payment_cancelled')),
+    }
+
+    # Create the instance of the PayPal payment form
+    # form = PayPalPaymentsForm(initial=paypal_dict)
+    # context = {"form": form}
+    return render(request, "payment/payment_process.html")
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):

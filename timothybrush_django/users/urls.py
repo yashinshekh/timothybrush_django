@@ -4,11 +4,11 @@ from .views import *
 # app_name = "users"
 
 urlpatterns = [
-    # path('',view=home,name="home"),
+    path('',view=home,name="home"),
     path('vechicle/',view=vechicle_info,name="vechicle_info"),
     path('events/',view=events_info,name="events_info"),
     path('memorabilia/',view=memorabilia_info,name="memorabilia_info"),
-    path('',view=memorabilia_info,name="home"),
+    # path('',view=memorabilia_info,name="home"),
     path('payment/',view=payment_info,name="payment_info"),
 
     # path("~redirect/", view=user_redirect_view, name="redirect"),

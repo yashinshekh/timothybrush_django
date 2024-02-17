@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <h2 class="text-2xl font-bold mb-4">Event Summary</h2>
+    <div id="event-summary" class="bg-white shadow-md rounded-lg p-6 mb-6">
+      <ul class="list-disc pl-5">
+        <li class="py-2">Show 'n Shine: $25.00</li>
+
+        {% if event_session %}
+          {% for key, value in event_session.items %}
+            {% if value and key != "show" %}
+              <li class="py-2">{{ key }}: {% if key == 'poker' %}$5.00{% elif key == 'cruise_night' or key == 'dance' %}Free{% endif %}</li>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+
+
+    <div id="payment-options" class="bg-white shadow-md rounded-lg p-6">
+      <h3 class="text-xl font-semibold mb-4">Proceed to Payment</h3>
+      <a href="your_paypal_link" target="_blank" class="inline-block bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-200">Pay with PayPal</a>
+    </div>
+  </div>
+{% endblock %}

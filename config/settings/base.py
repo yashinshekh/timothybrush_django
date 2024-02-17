@@ -82,6 +82,7 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "paypal.standard.ipn"
 ]
 
 LOCAL_APPS = [
@@ -295,3 +296,10 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 SESSION_COOKIE_AGE = 7200
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_SAVE_EVERY_REQUEST = True
+
+
+PAYPAL_RECEIVER_EMAIL = 'developeryasin@gmail.com'
+PAYPAL_TEST = True
+PAYPAL_CLIENT_ID = 'AfNSoY685gJQ-GNCLB-5y9dlnR3SZ7uukhAmOtuocvJvZ1GLOWLFVVwLYi3UNlgzfeBe0D_BiHxOf4Dh'
+PAYPAL_SECRET = 'EN2LzfFvy0J8tuBujmgEXo8WnSC4-Q4EJfNyV24N9rFn-UyiQM2XZ6-9vbJiaqqwIX_L8hQJVK3El_9W'
+
