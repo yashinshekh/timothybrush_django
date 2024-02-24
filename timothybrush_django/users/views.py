@@ -152,6 +152,7 @@ def payment_process(request):
         "cancel_return": request.build_absolute_uri(reverse('payment_cancelled')),
     }
 
+
     # form = PayPalPaymentsForm(initial=paypal_dict)
     # context = {"form": form}
     return render(request, "payment/payment_process.html")
