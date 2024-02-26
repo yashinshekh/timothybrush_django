@@ -49,7 +49,10 @@
 
 
       <form method="post" hx-post="{% url 'memorabilia_info' %}"  hx-target="this" hx-swap="outerHTML" id="memorabilia_form">
-        <h1>Men's T-shirt $25 each</h1>
+        <h1 class="text-bold text-3xl">Men's T-shirt $25 each</h1>
+
+        <img src="{% static 'images/mens_shirt.jpeg' %}" class="w-full h-auto max-w-xs mx-auto rounded-lg shadow-md m-10"/>
+
         {% csrf_token %}
 
         <div class="form-row">
@@ -74,7 +77,10 @@
         </div>
 
 
-        <h1>Womens t-shirt ( $25 each )</h1>
+        <h1 class="text-bold text-3xl">Womens t-shirt ( $25 each )</h1>
+
+        <img src="{% static 'images/womens.jpg' %}" class="w-full h-auto max-w-xs mx-auto rounded-lg shadow-md m-10"/>
+
         <div class="form-row">
           {% for color in womenstshirtform.COLORS %}
             <div class="col-md">
@@ -98,7 +104,10 @@
         </div>
 
 
-        <h1>Toque ($25 each)</h1>
+        <h1 class="text-bold text-3xl">Toque ($20 each)</h1>
+
+        <img src="{% static 'images/toque.jpeg' %}" class="w-full h-auto max-w-xs mx-auto rounded-lg shadow-md m-10"/>
+
         <div class="form-row">
           {% for field in toqueform %}
             <div class="col-md-4">
@@ -115,7 +124,10 @@
           {% endfor %}
         </div>
 
-        <h1>Basketball Cap ($25 each)</h1>
+        <h1 class="text-bold text-3xl">Basketball Cap ($30 each)</h1>
+
+        <img src="{% static 'images/basketball.jpg' %}" class="w-full h-auto max-w-xs mx-auto rounded-lg shadow-md m-10"/>
+
         <div class="form-row">
           {% for field in baseketballform %}
             <div class="col-md-4">

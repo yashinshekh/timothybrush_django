@@ -618,6 +618,10 @@ video {
   top: 50%;
 }
 
+.m-10 {
+  margin: 2.5rem;
+}
+
 .-mx-2 {
   margin-left: -0.5rem;
   margin-right: -0.5rem;
@@ -717,6 +721,10 @@ video {
   height: 100%;
 }
 
+.h-auto {
+  height: auto;
+}
+
 .w-6 {
   width: 1.5rem;
 }
@@ -735,6 +743,10 @@ video {
 
 .max-w-md {
   max-width: 28rem;
+}
+
+.max-w-xs {
+  max-width: 20rem;
 }
 
 .flex-1 {
