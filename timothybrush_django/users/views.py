@@ -9,8 +9,9 @@ from django.views.generic import DetailView, RedirectView, UpdateView
 from django.shortcuts import render, redirect
 
 from config.settings.base import PAYPAL_RECEIVER_EMAIL
-from .forms import PersonalForm, VechicleForm, EventForm, TOSForm, MenstshirtForm,WomenstshirtForm,ToquesForm,BasketballForm
+from django.contrib.auth.hashers import make_password
 from paypal.standard.forms import PayPalPaymentsForm
+from .forms import PersonalForm, VechicleForm, EventForm, TOSForm, MenstshirtForm,WomenstshirtForm,ToquesForm,BasketballForm
 
 User = get_user_model()
 
@@ -173,6 +174,34 @@ def payment_process(request):
 
 
 def payment_done(request):
+    user_info = request.session.get('user_form_data', {})
+    vehicle_info = request.session.get('vehicle_form_data', {})
+
+    # Create user with default password
+    user = User.objects.create(
+        first_name=user_info.get('fname'),
+        last_name=user_info.get('lname'),
+        email=user_info.get('email'),
+        username=user_info.get('email'),  # or generate a unique username
+        password=make_password('defaultpassword')  # Set a default password or generate one
+    )
+
+    # Create or update the profile
+    profile, created = Profile.objects.update_or_create(
+        user=user,
+        defaults={
+            'phone': user_info.get('phone'),
+            'street': user_info.get('street'),
+            'city': user_info.get('city'),
+            'province': user_info.get('prov'),
+            'postal_code': user_info.get('postal'),
+            # Add additional fields as needed
+        }
+    )
+
+    del request.session['user_form_data']
+    del request.session['vehicle_form_data']
+
     return HttpResponse("Payment completed successfully.")
 
 def payment_cancelled(request):
