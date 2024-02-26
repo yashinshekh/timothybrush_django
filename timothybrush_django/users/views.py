@@ -76,9 +76,7 @@ def memorabilia_info(request):
         toques_form = ToquesForm(request.POST)
         basketball_form = BasketballForm(request.POST)
 
-
-
-        if mens_tshirt_form.is_valid() and womens_tshirt_form.is_valid():
+        if mens_tshirt_form.is_valid() and womens_tshirt_form.is_valid() and toques_form.is_valid() and basketball_form.is_valid():
 
             request.session['mens_tshirt_form'] = mens_tshirt_form.cleaned_data
             request.session['womens_tshirt_form'] = womens_tshirt_form.cleaned_data
