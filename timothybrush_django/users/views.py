@@ -72,66 +72,59 @@ def events_info(request):
     if request.method == 'POST':
         event_form = EventForm(request.POST)
         if event_form.is_valid():
-            request.session['event_form_data'] = event_form.cleaned_data
+            request.session['events_form_data'] = event_form.cleaned_data
 
-            memorabilia_session_form_data = request.session.get('memorabilia_form_data')
-            if memorabilia_session_form_data:
-                memorabilia_form = MemorabiliaForm(initial=memorabilia_session_form_data)
-            else:
-                memorabilia_form = MemorabiliaForm()
+            mens_form = MenstshirtForm(initial=request.session.get('mens_tshirt_form')) if request.session.get('mens_tshirt_form') else MenstshirtForm()
+            womens_form = WomenstshirtForm(initial=request.session.get('womens_tshirt_form')) if request.session.get('womens_tshirt_form') else WomenstshirtForm()
+            basketball_form = BasketballForm(initial=request.session.get('basketball_form')) if request.session.get('basketball_form') else BasketballForm()
+            toque_form = ToquesForm(initial=request.session.get('toque_form')) if request.session.get('toque_form') else ToquesForm()
 
-            # next_step_html = render_to_string('pages/memorabilia_form.html', {'memorabilia_form': memorabilia_form}, request=request)
             next_step_html = render_to_string('pages/memorabilia_form.html', {
-                'form': MenstshirtForm(),
-                'womenstshirtform':WomenstshirtForm(),
-                'toqueform':ToquesForm(),
-                'baseketballform':BasketballForm()
+                'menstshirtform': mens_form,
+                'womenstshirtform':womens_form,
+                'toqueform':toque_form,
+                'baseketballform':basketball_form
             }, request=request)
             return HttpResponse(next_step_html)
 
     else:
-        event_form_data = request.session.get('event_form_data')
-        if event_form_data:
-            event_form = EventForm(initial=event_form_data)
-        else:
-            event_form = EventForm()
-
-    return render(request, 'pages/events_form.html', {'event_form': event_form})
+        event_form = EventForm(initial=request.session.get('events_form_data')) if request.session.get('events_form_data') else EventForm()
+        return render(request, 'pages/events_form.html', {'event_form': event_form})
 
 
 def memorabilia_info(request):
     if request.method == 'POST':
-        memorabilia_form = MemorabiliaForm(request.POST)
-        if memorabilia_form.is_valid():
-            request.session['memorabilia_form_data'] = memorabilia_form.cleaned_data
+        mens_tshirt_form = MenstshirtForm(request.POST)
+        womens_tshirt_form = WomenstshirtForm(request.POST)
+        toques_form = ToquesForm(request.POST)
+        basketball_form = BasketballForm(request.POST)
 
-            payment_session_form_data = request.session.get('payment_form_data')
-            if payment_session_form_data:
-                payment_form = PaymentForm(initial=payment_session_form_data)
-            else:
-                payment_form = PaymentForm()
 
+
+        if mens_tshirt_form.is_valid() and womens_tshirt_form.is_valid():
+
+            request.session['mens_tshirt_form'] = mens_tshirt_form.cleaned_data
+            request.session['womens_tshirt_form'] = womens_tshirt_form.cleaned_data
+            request.session['toque_form'] = toques_form.cleaned_data
+            request.session['basketball_form'] = basketball_form.cleaned_data
+
+            payment_form = PaymentForm(initial=request.session.get('payment_form_data')) if request.session.get('payment_form_data') else PaymentForm()
             next_step_html = render_to_string('pages/payment_form.html', {'payment_form': payment_form}, request=request)
             return HttpResponse(next_step_html)
 
     else:
-        memorabilia_form_data = request.session.get('memorabilia_form_data')
-        if memorabilia_form_data:
-            memorabilia_form = MemorabiliaForm(initial=memorabilia_form_data)
-        else:
-            memorabilia_form = MemorabiliaForm()
+        mens_form = MenstshirtForm(initial=request.session.get('mens_tshirt_form')) if request.session.get('mens_tshirt_form') else MenstshirtForm()
+        womens_form = WomenstshirtForm(initial=request.session.get('womens_tshirt_form')) if request.session.get('womens_tshirt_form') else WomenstshirtForm()
+        basketball_form = BasketballForm(initial=request.session.get('basketball_form')) if request.session.get('basketball_form') else BasketballForm()
+        toque_form = ToquesForm(initial=request.session.get('toque_form')) if request.session.get('toque_form') else ToquesForm()
 
-    # print('here')
-    # memorabilia_form = MenstshirtForm()
-    #
-    # print(memorabilia_form)
 
-    return render(request, 'pages/memorabilia_form.html', {
-        'form': MenstshirtForm(),
-        'womenstshirtform':WomenstshirtForm(),
-        'toqueform':ToquesForm(),
-        'baseketballform':BasketballForm()
-    })
+        return render(request, 'pages/memorabilia_form.html', {
+            'menstshirtform': mens_form,
+            'womenstshirtform':womens_form,
+            'toqueform':toque_form,
+            'baseketballform':basketball_form
+        })
 
 
 def payment_info(request):

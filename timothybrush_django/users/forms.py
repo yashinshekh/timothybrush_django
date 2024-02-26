@@ -69,33 +69,33 @@ class MenstshirtForm(forms.Form):
 
         for size in self.SIZES:
             for color in self.COLORS:
-                # Only creating a quantity field for each T-shirt option
-                field_name = f'quantity_{size}_{color}'
+                field_name = f'men_quantity_{size}_{color}'
                 self.fields[field_name] = forms.IntegerField(
                     label=f'{size} {color}',
-                    required=False, min_value=0, initial=0,max_value=10,
-                    widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
+                    required=False, min_value=0,max_value=10,
+                    widget=forms.NumberInput(attrs={
+                        'class': 'quantity-input h-2 p-1',
+                    }))
 
 
-    def clean(self):
-        cleaned_data = super().clean()
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #
+    #     for size in self.SIZES:
+    #         for color in self.COLORS:
+    #             shirt_key = f'{size}_{color}'
+    #             quantity_key = f'quantity_{size}_{color}'
 
-        for size in self.SIZES:
-            for color in self.COLORS:
-                shirt_key = f'{size}_{color}'
-                quantity_key = f'quantity_{size}_{color}'
+                # shirt_selected = cleaned_data.get(shirt_key)
+                # quantity = cleaned_data.get(quantity_key, 0)
 
-                shirt_selected = cleaned_data.get(shirt_key)
-                quantity = cleaned_data.get(quantity_key, 0)
+                # if shirt_selected and quantity <= 0:
+                #     self.add_error(quantity_key, f'Please enter a valid quantity for {size} {color} T-Shirt.')
+                #
+                # if not shirt_selected and quantity > 0:
+                #     self.add_error(shirt_key, f'Please select the {size} {color} T-Shirt before specifying a quantity.')
 
-                # If a shirt is selected but quantity is 0, or vice versa, raise a validation error
-                if shirt_selected and quantity <= 0:
-                    self.add_error(quantity_key, f'Please enter a valid quantity for {size} {color} T-Shirt.')
-
-                if not shirt_selected and quantity > 0:
-                    self.add_error(shirt_key, f'Please select the {size} {color} T-Shirt before specifying a quantity.')
-
-        return cleaned_data
+        # return cleaned_data
 
 
 
@@ -109,32 +109,32 @@ class WomenstshirtForm(forms.Form):
         for size in self.SIZES:
             for color in self.COLORS:
                 # Only creating a quantity field for each T-shirt option
-                field_name = f'quantity_{size}_{color}'
+                field_name = f'women_quantity_{size}_{color}'
                 self.fields[field_name] = forms.IntegerField(
                     label=f'{size} {color}',
                     required=False, min_value=0, initial=0,max_value=10,
                     widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
 
 
-    def clean(self):
-        cleaned_data = super().clean()
-
-        for size in self.SIZES:
-            for color in self.COLORS:
-                shirt_key = f'{size}_{color}'
-                quantity_key = f'quantity_{size}_{color}'
-
-                shirt_selected = cleaned_data.get(shirt_key)
-                quantity = cleaned_data.get(quantity_key, 0)
-
-                # If a shirt is selected but quantity is 0, or vice versa, raise a validation error
-                if shirt_selected and quantity <= 0:
-                    self.add_error(quantity_key, f'Please enter a valid quantity for {size} {color} T-Shirt.')
-
-                if not shirt_selected and quantity > 0:
-                    self.add_error(shirt_key, f'Please select the {size} {color} T-Shirt before specifying a quantity.')
-
-        return cleaned_data
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #
+    #     for size in self.SIZES:
+    #         for color in self.COLORS:
+    #             shirt_key = f'{size}_{color}'
+    #             quantity_key = f'quantity_{size}_{color}'
+    #
+    #             shirt_selected = cleaned_data.get(shirt_key)
+    #             quantity = cleaned_data.get(quantity_key, 0)
+    #
+    #             # If a shirt is selected but quantity is 0, or vice versa, raise a validation error
+    #             if shirt_selected and quantity <= 0:
+    #                 self.add_error(quantity_key, f'Please enter a valid quantity for {size} {color} T-Shirt.')
+    #
+    #             if not shirt_selected and quantity > 0:
+    #                 self.add_error(shirt_key, f'Please select the {size} {color} T-Shirt before specifying a quantity.')
+    #
+    #     return cleaned_data
 
 
 class ToquesForm(forms.Form):
@@ -145,28 +145,28 @@ class ToquesForm(forms.Form):
     def __init__(self,*args,**kwargs):
         super(ToquesForm,self).__init__(*args,**kwargs)
         for color in self.COLORS:
-            field_name = f'quantity_{color.replace(" ", "_")}'
+            field_name = f'toque_quantity_{color.replace(" ", "_")}'
             self.fields[field_name] = forms.IntegerField(
                 label=color,
-                required=False, min_value=0, initial=0, max_value=10,
+                required=False, min_value=0, max_value=10,
                 widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
 
 
 
-    def clean(self):
-        cleaned_data = super().clean()
-
-        for color in self.COLORS:
-            product_key = color.replace(" ", "_")
-            toque_key = f'quantity_{product_key}'
-
-            quantity = cleaned_data.get(toque_key, 0)
-
-            # If quantity is specified as 0, no error is raised, but this can be adjusted based on requirements
-            if quantity < 0:
-                self.add_error(toque_key, f'Please enter a valid quantity for {color}.')
-
-        return cleaned_data
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #
+    #     for color in self.COLORS:
+    #         product_key = color.replace(" ", "_")
+    #         toque_key = f'quantity_{product_key}'
+    #
+    #         quantity = cleaned_data.get(toque_key, 0)
+    #
+    #         # If quantity is specified as 0, no error is raised, but this can be adjusted based on requirements
+    #         if quantity < 0:
+    #             self.add_error(toque_key, f'Please enter a valid quantity for {color}.')
+    #
+    #     return cleaned_data
 
 class BasketballForm(forms.Form):
     COLORS = [
@@ -176,28 +176,28 @@ class BasketballForm(forms.Form):
     def __init__(self,*args,**kwargs):
         super(BasketballForm,self).__init__(*args,**kwargs)
         for color in self.COLORS:
-            field_name = f'quantity_{color.replace(" ", "_")}'
+            field_name = f'basketball_quantity_{color.replace(" ", "_")}'
             self.fields[field_name] = forms.IntegerField(
                 label=color,
-                required=False, min_value=0, initial=0, max_value=10,
+                required=False, min_value=0, max_value=10,
                 widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
 
 
 
-    def clean(self):
-        cleaned_data = super().clean()
-
-        for color in self.COLORS:
-            product_key = color.replace(" ", "_")
-            toque_key = f'quantity_{product_key}'
-
-            quantity = cleaned_data.get(toque_key, 0)
-
-            # If quantity is specified as 0, no error is raised, but this can be adjusted based on requirements
-            if quantity < 0:
-                self.add_error(toque_key, f'Please enter a valid quantity for {color}.')
-
-        return cleaned_data
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #
+    #     for color in self.COLORS:
+    #         product_key = color.replace(" ", "_")
+    #         toque_key = f'quantity_{product_key}'
+    #
+    #         quantity = cleaned_data.get(toque_key, 0)
+    #
+    #         # If quantity is specified as 0, no error is raised, but this can be adjusted based on requirements
+    #         if quantity < 0:
+    #             self.add_error(toque_key, f'Please enter a valid quantity for {color}.')
+    #
+    #     return cleaned_data
 
 
 

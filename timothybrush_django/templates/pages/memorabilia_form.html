@@ -1,5 +1,6 @@
+<div id="form-container">
+
 <fieldset>
-  <form method="post" hx-post="{% url 'memorabilia_info' %}" hx-target="this" hx-swap="outerHTML" id="merchandise">
       <div class="form-card">
     <div class="row">
       <div class="col-7">
@@ -45,21 +46,25 @@
       </div>
 
 
-
-      <form method="post">
+      <form method="post" hx-post="{% url 'memorabilia_info' %}"  hx-target="this" hx-swap="outerHTML" id="memorabilia_form">
         <h1>Men's T-shirt $25 each</h1>
         {% csrf_token %}
+
         <div class="form-row">
-          {% for color in form.COLORS %}
+          {% for color in menstshirtform.COLORS %}
             <div class="col-md">
               <h4>{{ color }}</h4>
-              {% for field in form %}
+              {% for field in menstshirtform %}
                 {% if color in field.name %}
-                  <div class="form-group">
+
+                  <div class="flex items-center space-x-4">
                     {{ field.errors }}
-                    {{ field }}
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    <div class="w-1/4 items-center">
+                      {{ field }}
+                    </div>
+                    <label for="{{ field.id_for_label }}" class="flex-1">{{ field.label }}</label>
                   </div>
+
                 {% endif %}
               {% endfor %}
             </div>
@@ -72,13 +77,18 @@
           {% for color in womenstshirtform.COLORS %}
             <div class="col-md">
               <h4>{{ color }}</h4>
-              {% for field in form %}
+              {% for field in womenstshirtform %}
                 {% if color in field.name %}
-                  <div class="form-group">
+
+                  <div class="flex items-center space-x-4">
                     {{ field.errors }}
-                    {{ field }}
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    <div class="w-1/4 items-center">
+                      {{ field }}
+                    </div>
+                    <label for="{{ field.id_for_label }}" class="flex-1">{{ field.label }}</label>
                   </div>
+
+
                 {% endif %}
               {% endfor %}
             </div>
@@ -90,13 +100,15 @@
         <div class="form-row">
           {% for field in toqueform %}
             <div class="col-md-4">
-              <div class="form-group">
+
+              <div class="flex items-center space-x-4">
                 {{ field.errors }}
-                <div class="form-check">
+                <div class="w-1/4 items-center">
                   {{ field }}
-                  <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
                 </div>
+                <label for="{{ field.id_for_label }}" class="flex-1">{{ field.label }}</label>
               </div>
+
             </div>
           {% endfor %}
         </div>
@@ -105,13 +117,16 @@
         <div class="form-row">
           {% for field in baseketballform %}
             <div class="col-md-4">
-              <div class="form-group">
+
+              <div class="flex items-center space-x-4">
                 {{ field.errors }}
-                <div class="form-check">
+                <div class="w-1/4 items-center">
                   {{ field }}
-                  <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
                 </div>
+                <label for="{{ field.id_for_label }}" class="flex-1">{{ field.label }}</label>
               </div>
+
+
             </div>
           {% endfor %}
         </div>
@@ -121,14 +136,13 @@
 
 
 
-        <button type="submit" class="btn btn-primary">Next</button>
+        <input type="submit" name="next" class="next action-button" value="Next" />
+        <button type="button" hx-get="{% url 'events_info' %}" hx-target="#form-container" hx-swap="innerHTML" class="previous action-button-previous">Previous</button>
       </form>
-
-
-
-
 
 
     </div>
   </div>
 </fieldset>
+
+</div>
