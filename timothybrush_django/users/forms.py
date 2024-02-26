@@ -202,14 +202,17 @@ class BasketballForm(forms.Form):
 
 
 
-class PaymentForm(forms.Form):
+class TOSForm(forms.Form):
     confirm_payment = forms.BooleanField(required=True, label="Yes... I confirm that I have read and understand all terms and conditions above. *	")
 
 
     def clean(self):
-        if not self.confirm_payment:
+        cleaned_data = super().clean()  # Call the base class first
+        confirm_payment = cleaned_data.get('confirm_payment')  # Use .get to avoid KeyError if not present
+
+        if not confirm_payment:
             raise forms.ValidationError("You must confirm the payment to proceed.")
 
-        return self.cleaned_data
+        return cleaned_data
 
 

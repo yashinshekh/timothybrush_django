@@ -9,7 +9,7 @@ from django.views.generic import DetailView, RedirectView, UpdateView
 from django.shortcuts import render, redirect
 
 from config.settings.base import PAYPAL_RECEIVER_EMAIL
-from .forms import PersonalForm, VechicleForm, EventForm, MemorabiliaForm, PaymentForm, MenstshirtForm,WomenstshirtForm,ToquesForm,BasketballForm
+from .forms import PersonalForm, VechicleForm, EventForm, TOSForm, MenstshirtForm,WomenstshirtForm,ToquesForm,BasketballForm
 
 User = get_user_model()
 
@@ -83,9 +83,11 @@ def memorabilia_info(request):
             request.session['toque_form'] = toques_form.cleaned_data
             request.session['basketball_form'] = basketball_form.cleaned_data
 
-            payment_form = PaymentForm(initial=request.session.get('payment_form_data')) if request.session.get('payment_form_data') else PaymentForm()
-            next_step_html = render_to_string('pages/payment_form.html', {'payment_form': payment_form}, request=request)
+            tos_form = TOSForm(initial=request.session.get('payment_form_data')) if request.session.get('payment_form_data') else TOSForm()
+            next_step_html = render_to_string('pages/tos_form.html', {'payment_form': tos_form}, request=request)
             return HttpResponse(next_step_html)
+
+            # redirect('payment_info')
 
     else:
         mens_form = MenstshirtForm(initial=request.session.get('mens_tshirt_form')) if request.session.get('mens_tshirt_form') else MenstshirtForm()
@@ -102,10 +104,37 @@ def memorabilia_info(request):
         })
 
 
+def tos(request):
+    if request.method == "POST":
+        tos_form = TOSForm(request.POST)
+        if tos_form.is_valid():
+            return redirect('payment_info')
+
+
 def payment_info(request):
-    print(request.session.get('events_form_data'))
+    mens_form_session = request.session.get('mens_tshirt_form', {})
+    womens_form_session = request.session.get('womens_tshirt_form', {})
+    basketball_form_session = request.session.get('basketball_form', {'quantity': 0})
+    toque_form_session = request.session.get('toque_form', {'quantity': 0})
+
+    total_price = 0
+    for quantity in mens_form_session.values():
+        total_price += 25 * (quantity or 0)
+    for quantity in womens_form_session.values():
+        total_price += 25 * (quantity or 0)
+    total_price += 30 * (basketball_form_session.get('quantity', 0) or 0)
+    total_price += 20 * (toque_form_session.get('quantity', 0) or 0)
+
+
+
     return render(request,'pages/payment.html',{
-        'event_session' : request.session.get('events_form_data')
+        'event_session' : request.session.get('events_form_data'),
+        'mens_form_session':request.session.get('mens_tshirt_form'),
+        'womens_form_session':request.session.get('womens_tshirt_form'),
+        'basketball_form_session': request.session.get('basketball_form'),
+        'toque_form_session':request.session.get('toque_form'),
+        'total_price':total_price
+
     })
 
 

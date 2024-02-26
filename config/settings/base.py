@@ -87,6 +87,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "timothybrush_django.users",
+    "timothybrush_django.users.templatetags",
     "timothybrush_django.shop",
     "timothybrush_django.events"
     # Your stuff: custom apps go here
