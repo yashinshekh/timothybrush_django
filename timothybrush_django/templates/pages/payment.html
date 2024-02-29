@@ -1,20 +1,68 @@
 {% extends 'base.html' %}
 {% load custom_filters %}
+{% load static %}
 
 {% block content %}
   <div class="max-w-4xl mx-auto px-4 py-8">
     <h2 class="text-2xl font-bold mb-4">Event Summary</h2>
     <div id="event-summary" class="bg-white shadow-md rounded-lg p-6 mb-6">
       <ul class="list-disc pl-5">
-        <li class="py-2">Show 'n Shine: $25.00</li>
+
+        <li class="py-2 list-none">
+          <div class="flex items-start">
+            <img src="{% static 'images/events/SeasideCruizers.png' %}" alt="{{ key }}" class="h-24 w-24 mr-4"> <!-- Adjust image size as needed -->
+            <span class="flex-1 text-bold text-3xl">Show 'n Shine</span>
+          </div>
+          <div class="border-b border-gray-200 mt-2"></div>
+          <div class="border-t border-gray-200 pt-2">
+            <div class="flex justify-between items-end">
+              <div class="text-center">
+                <div>Price</div>
+                <div>25 CAD</div>
+              </div>
+              <div class="text-center">
+                <div>Total Price</div>
+                <div>25 CAD</div>
+              </div>
+            </div>
+          </div>
+        </li>
+
+
+{#        {% if event_session %}#}
+{#          {% for key, value in event_session.items %}#}
+{#            {% if value and key != "show" %}#}
+{#              <li class="py-2">{{ key }}: {% if key == 'poker' %}$5.00{% elif key == 'cruise_night' or key == 'dance' %}Free{% endif %}</li>#}
+{#            {% endif %}#}
+{#          {% endfor %}#}
+{#        {% endif %}#}
 
         {% if event_session %}
           {% for key, value in event_session.items %}
             {% if value and key != "show" %}
-              <li class="py-2">{{ key }}: {% if key == 'poker' %}$5.00{% elif key == 'cruise_night' or key == 'dance' %}Free{% endif %}</li>
+              <li class="py-2 list-none">
+                <div class="flex items-start">
+                  <img src="{% static 'images/events/'|add:key|add:'.png' %}" alt="{{ key }}" class="h-24 w-24 mr-4">
+                  <span class="flex-1 font-bold text-2xl">{{ key }}</span>
+                </div>
+                <div class="border-b border-gray-200 mt-2"></div>
+                <div class="border-t border-gray-200 pt-2">
+                  <div class="flex justify-between items-end">
+                    <div class="text-center">
+                      <div>Price</div>
+                      <div>{{ value.price }} CAD</div>
+                    </div>
+                    <div class="text-center">
+                      <div>Total Price</div>
+                      <div>{{ value.total_price }} CAD</div>
+                    </div>
+                  </div>
+                </div>
+              </li>
             {% endif %}
           {% endfor %}
         {% endif %}
+
       </ul>
     </div>
 
@@ -22,41 +70,149 @@
       <h3 class="text-xl font-semibold mb-4">Merchandise Summary</h3>
       <ul class="list-disc pl-5">
         <ul>
+
           {% for key, value in mens_form_session.items %}
             {% if value > 0 %}
               {% with key|cut:"men_quantity_"|split:"_" as parts %}
-                <li class="py-2 flex justify-between border-b border-gray-200">
-                  <span>Men's T-Shirt (Size: {{ parts.0 }}, Color: {{ parts.1.capitalize }})</span>
-                  <span>Qty: {{ value }} - ${{ value|multiply:25 }}</span>
+                <li class="py-2 list-none">
+                  <div class="flex items-start">
+                    <img src="{% static 'images/mens_tshirts/'|add:parts.1|add:'.png' %}" alt="Men's T-Shirt" class="h-24 w-24 mr-4">
+                    <span class="flex-1 font-bold text-3xl">Men's T-Shirt (Size: {{ parts.0 }}, Color: {{ parts.1.capitalize }})</span>
+                  </div>
+                  <div class="border-b border-gray-200 mt-2"></div>
+                  <div class="border-t border-gray-200 pt-2">
+                      <div class="flex justify-between items-end">
+                        <div class="text-center">
+                          <div>Price</div>
+                          <div>25 CAD</div>
+                        </div>
+                        <div class="text-center">
+                          <div>Qty</div>
+                          <div>{{ value }}</div>
+                        </div>
+                        <div class="text-center">
+                          <div>Total Price</div>
+                          <div>{{ value|multiply:25 }} CAD</div>
+                        </div>
+                      </div>
+
+                  </div>
                 </li>
               {% endwith %}
             {% endif %}
           {% endfor %}
 
+{#          {% for key, value in womens_form_session.items %}#}
+{#            {% if value > 0 %}#}
+{#              {% with key|cut:"women_quantity_"|split:"_" as parts %}#}
+{#                <li class="py-2 flex justify-between border-b border-gray-200">#}
+{#                  <span>Women's T-Shirt (Size: {{ parts.0 }}, Color: {{ parts.1.capitalize }})</span>#}
+{#                  <span>Qty: {{ value }} - ${{ value|multiply:25 }}</span>#}
+{#                </li>#}
+{#              {% endwith %}#}
+{#            {% endif %}#}
+{#          {% endfor %}#}
           {% for key, value in womens_form_session.items %}
             {% if value > 0 %}
               {% with key|cut:"women_quantity_"|split:"_" as parts %}
-                <li class="py-2 flex justify-between border-b border-gray-200">
-                  <span>Women's T-Shirt (Size: {{ parts.0 }}, Color: {{ parts.1.capitalize }})</span>
-                  <span>Qty: {{ value }} - ${{ value|multiply:25 }}</span>
+                <li class="py-2 list-none">
+                  <div class="flex items-start">
+                    <img src="{% static 'images/womens_tshirts/'|add:parts.1|add:'.png' %}" alt="Men's T-Shirt" class="h-24 w-24 mr-4">
+                    <span class="flex-1 font-bold text-3xl">Women's T-Shirt (Size: {{ parts.0 }}, Color: {{ parts.1.capitalize }})</span>
+                  </div>
+                  <div class="border-b border-gray-200 mt-2"></div>
+                  <div class="border-t border-gray-200 pt-2">
+                    <div class="flex justify-between items-end">
+                      <div class="text-center">
+                        <div>Price</div>
+                        <div>25 CAD</div>
+                      </div>
+                      <div class="text-center">
+                        <div>Qty</div>
+                        <div>{{ value }}</div>
+                      </div>
+                      <div class="text-center">
+                        <div>Total Price</div>
+                        <div>{{ value|multiply:25 }} CAD</div>
+                      </div>
+                    </div>
+
+                  </div>
                 </li>
               {% endwith %}
             {% endif %}
           {% endfor %}
 
-          {% if basketball_form_session.quantity > 0 %}
-            <li class="py-2 flex justify-between border-b border-gray-200">
-              <span>Basketball</span>
-              <span>Qty: {{ basketball_form_session.quantity }} - ${{ basketball_form_session.quantity|multiply:30 }}</span>
-            </li>
-          {% endif %}
+{#          {% for key, value in basketball_form_session.items %}#}
+{#            {% if value > 0 %}#}
+{#              {% with key|cut:"basketball_quantity_"|split:"_" as parts %}#}
+{#                <li class="py-2 flex justify-between border-b border-gray-200">#}
+{#                  <span>Basketball (Color: {{ parts|join:" " }})</span>#}
+{#                  <span>Qty: {{ value }} - ${{ value|multiply:20 }}</span> <!-- Assuming $20 per basketball item -->#}
+{#                </li>#}
+{#              {% endwith %}#}
+{#            {% endif %}#}
+{#          {% endfor %}#}
 
-          {% if toque_form_session.quantity > 0 %}
-            <li class="py-2 flex justify-between border-b border-gray-200">
-              <span>Toque</span>
-              <span>Qty: {{ toque_form_session.quantity }} - ${{ toque_form_session.quantity|multiply:20 }}</span>
-            </li>
-          {% endif %}
+          {% for key, value in basketball_form_session.items %}
+            {% if value > 0 %}
+              {% with key|cut:"basketball_quantity_"|split:"_" as parts %}
+                <li class="py-2 list-none">
+                  <div class="flex items-start">
+                    <img src="{% static 'images/basketball/'|add:parts.0|add:'.png' %}" alt="Basketball" class="h-24 w-24 mr-4">
+                    <span class="flex-1 font-bold text-3xl">Basketball (Color: {{ parts|join:" " }})</span>
+                  </div>
+                  <div class="border-b border-gray-200 mt-2"></div>
+                  <div class="border-t border-gray-200 pt-2">
+                    <div class="flex justify-between items-end">
+                      <div class="text-center">
+                        <div>Price</div>
+                        <div>20 CAD</div>
+                      </div>
+                      <div class="text-center">
+                        <div>Qty</div>
+                        <div>{{ value }}</div>
+                      </div>
+                      <div class="text-center">
+                        <div>Total Price</div>
+                        <div>{{ value|multiply:20 }} CAD</div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              {% endwith %}
+            {% endif %}
+          {% endfor %}
+
+
+          {% for key, value in toque_form_session.items %}
+            {% if value > 0 %}
+              {% with key|cut:"toque_quantity_"|split:"_" as parts %}
+                <li class="py-2 flex justify-between border-b border-gray-200">
+                  <span>Toque (Style: {{ parts|join:" " }})</span>
+                  <span>Qty: {{ value }} - ${{ value|multiply:20 }}</span> <!-- Assuming $20 per toque item -->
+                </li>
+              {% endwith %}
+            {% endif %}
+          {% endfor %}
+
+{#          {% for key,value in basketball_form_session.items %}#}
+{#          {{ key }}{{ value }}#}
+{#        {% endfor %}#}
+{##}
+{#          {% if basketball_form_session.quantity > 0 %}#}
+{#            <li class="py-2 flex justify-between border-b border-gray-200">#}
+{#              <span>Basketball</span>#}
+{#              <span>Qty: {{ basketball_form_session.quantity }} - ${{ basketball_form_session.quantity|multiply:30 }}</span>#}
+{#            </li>#}
+{#          {% endif %}#}
+{##}
+{#          {% if toque_form_session.quantity > 0 %}#}
+{#            <li class="py-2 flex justify-between border-b border-gray-200">#}
+{#              <span>Toque</span>#}
+{#              <span>Qty: {{ toque_form_session.quantity }} - ${{ toque_form_session.quantity|multiply:20 }}</span>#}
+{#            </li>#}
+{#          {% endif %}#}
         </ul>
 
       </ul>

@@ -119,6 +119,9 @@ def payment_info(request):
     basketball_form_session = request.session.get('basketball_form', {'quantity': 0})
     toque_form_session = request.session.get('toque_form', {'quantity': 0})
 
+
+    # print(request.session.get('events_form_data').items())
+
     total_price = 0
     for quantity in mens_form_session.values():
         total_price += 25 * (quantity or 0)
