@@ -188,15 +188,35 @@
           {% for key, value in toque_form_session.items %}
             {% if value > 0 %}
               {% with key|cut:"toque_quantity_"|split:"_" as parts %}
-                <li class="py-2 flex justify-between border-b border-gray-200">
-                  <span>Toque (Style: {{ parts|join:" " }})</span>
-                  <span>Qty: {{ value }} - ${{ value|multiply:20 }}</span> <!-- Assuming $20 per toque item -->
+                <li class="py-2 list-none">
+                  <div class="flex items-start">
+                    <img src="{% static 'images/toque/'|add:parts.0|add:'.png' %}" alt="Toque" class="h-24 w-24 mr-4">
+                    <span class="flex-1 font-bold text-3xl">Toque (Style: {{ parts|join:" " }})</span>
+                  </div>
+                  <div class="border-b border-gray-200 mt-2"></div>
+                  <div class="border-t border-gray-200 pt-2">
+                    <div class="flex justify-between items-end">
+                      <div class="text-center">
+                        <div>Price</div>
+                        <div>15 CAD</div>
+                      </div>
+                      <div class="text-center">
+                        <div>Qty</div>
+                        <div>{{ value }}</div>
+                      </div>
+                      <div class="text-center">
+                        <div>Total Price</div>
+                        <div>{{ value|multiply:15 }} CAD</div>
+                      </div>
+                    </div>
+                  </div>
                 </li>
               {% endwith %}
             {% endif %}
           {% endfor %}
 
-{#          {% for key,value in basketball_form_session.items %}#}
+
+          {#          {% for key,value in basketball_form_session.items %}#}
 {#          {{ key }}{{ value }}#}
 {#        {% endfor %}#}
 {##}
