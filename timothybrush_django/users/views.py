@@ -11,6 +11,7 @@ from django.shortcuts import render, redirect
 from config.settings.base import PAYPAL_RECEIVER_EMAIL
 from django.contrib.auth.hashers import make_password
 from paypal.standard.forms import PayPalPaymentsForm
+import uuid
 from .forms import PersonalForm, VechicleForm, EventForm, TOSForm, MenstshirtForm,WomenstshirtForm,ToquesForm,BasketballForm
 
 User = get_user_model()
@@ -131,6 +132,19 @@ def payment_info(request):
     total_price += 20 * (toque_form_session.get('quantity', 0) or 0)
 
 
+    paypal_dict = {
+        "business": PAYPAL_RECEIVER_EMAIL,
+        "amount": total_price,  # Example amount
+        "item_name": "Item Name",
+        "invoice": uuid.uuid4(),
+        "currency_code":"USD",
+        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+        "return_url": request.build_absolute_uri(reverse('payment_done')),
+        "cancel_return": request.build_absolute_uri(reverse('payment_cancelled')),
+    }
+
+
+    form = PayPalPaymentsForm(initial=paypal_dict)
 
     return render(request,'pages/payment.html',{
         'event_session' : request.session.get('events_form_data'),
@@ -138,41 +152,10 @@ def payment_info(request):
         'womens_form_session':request.session.get('womens_tshirt_form'),
         'basketball_form_session': request.session.get('basketball_form'),
         'toque_form_session':request.session.get('toque_form'),
-        'total_price':total_price
+        'total_price':total_price,
+        'form':form
 
     })
-
-
-def payment_process(request):
-    if request.method == "POST":
-        mens_form_session = request.session.get('mens_tshirt_form', {})
-        womens_form_session = request.session.get('womens_tshirt_form', {})
-        basketball_form_session = request.session.get('basketball_form', {'quantity': 0})
-        toque_form_session = request.session.get('toque_form', {'quantity': 0})
-
-        total_price = 0
-        for quantity in mens_form_session.values():
-            total_price += 25 * (quantity or 0)
-        for quantity in womens_form_session.values():
-            total_price += 25 * (quantity or 0)
-        total_price += 30 * (basketball_form_session.get('quantity', 0) or 0)
-        total_price += 20 * (toque_form_session.get('quantity', 0) or 0)
-
-        paypal_dict = {
-            "business": PAYPAL_RECEIVER_EMAIL,
-            "amount": total_price,  # Example amount
-            "item_name": "Item Name",
-            "invoice": "unique-invoice-id",
-            # "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
-            "return_url": request.build_absolute_uri(reverse('payment_done')),
-            "cancel_return": request.build_absolute_uri(reverse('payment_cancelled')),
-        }
-
-
-        form = PayPalPaymentsForm(initial=paypal_dict)
-        context = {"form": form}
-        return render(request, "payment/payment_process.html",context)
-
 
 
 

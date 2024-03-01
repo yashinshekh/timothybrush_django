@@ -242,14 +242,8 @@
     <li class="py-2 mt-4 font-semibold">Total Price: ${{ total_price }}</li>
 
 
+    {{ form.render }}
 
-  <form method="post" action="{% url 'process_payment' %}">
-    {% csrf_token %}
-    <div id="payment-options" class="bg-white shadow-md rounded-lg p-6">
-      <h3 class="text-xl font-semibold mb-4">Proceed to Payment</h3>
-      <button type="submit" target="_blank" class="inline-block bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-200">Pay with PayPal</button>
-    </div>
-  </form>
 
   </div>
 
