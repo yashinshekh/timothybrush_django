@@ -197,6 +197,7 @@ def payment_cancelled(request):
 
 
 
+
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
     slug_field = "id"
