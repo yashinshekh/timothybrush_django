@@ -29,14 +29,6 @@
         </li>
 
 
-{#        {% if event_session %}#}
-{#          {% for key, value in event_session.items %}#}
-{#            {% if value and key != "show" %}#}
-{#              <li class="py-2">{{ key }}: {% if key == 'poker' %}$5.00{% elif key == 'cruise_night' or key == 'dance' %}Free{% endif %}</li>#}
-{#            {% endif %}#}
-{#          {% endfor %}#}
-{#        {% endif %}#}
-
         {% if event_session %}
           {% for key, value in event_session.items %}
             {% if value and key != "show" %}
@@ -102,16 +94,7 @@
             {% endif %}
           {% endfor %}
 
-{#          {% for key, value in womens_form_session.items %}#}
-{#            {% if value > 0 %}#}
-{#              {% with key|cut:"women_quantity_"|split:"_" as parts %}#}
-{#                <li class="py-2 flex justify-between border-b border-gray-200">#}
-{#                  <span>Women's T-Shirt (Size: {{ parts.0 }}, Color: {{ parts.1.capitalize }})</span>#}
-{#                  <span>Qty: {{ value }} - ${{ value|multiply:25 }}</span>#}
-{#                </li>#}
-{#              {% endwith %}#}
-{#            {% endif %}#}
-{#          {% endfor %}#}
+
           {% for key, value in womens_form_session.items %}
             {% if value > 0 %}
               {% with key|cut:"women_quantity_"|split:"_" as parts %}
@@ -143,16 +126,6 @@
             {% endif %}
           {% endfor %}
 
-{#          {% for key, value in basketball_form_session.items %}#}
-{#            {% if value > 0 %}#}
-{#              {% with key|cut:"basketball_quantity_"|split:"_" as parts %}#}
-{#                <li class="py-2 flex justify-between border-b border-gray-200">#}
-{#                  <span>Basketball (Color: {{ parts|join:" " }})</span>#}
-{#                  <span>Qty: {{ value }} - ${{ value|multiply:20 }}</span> <!-- Assuming $20 per basketball item -->#}
-{#                </li>#}
-{#              {% endwith %}#}
-{#            {% endif %}#}
-{#          {% endfor %}#}
 
           {% for key, value in basketball_form_session.items %}
             {% if value > 0 %}
@@ -215,24 +188,6 @@
             {% endif %}
           {% endfor %}
 
-
-          {#          {% for key,value in basketball_form_session.items %}#}
-{#          {{ key }}{{ value }}#}
-{#        {% endfor %}#}
-{##}
-{#          {% if basketball_form_session.quantity > 0 %}#}
-{#            <li class="py-2 flex justify-between border-b border-gray-200">#}
-{#              <span>Basketball</span>#}
-{#              <span>Qty: {{ basketball_form_session.quantity }} - ${{ basketball_form_session.quantity|multiply:30 }}</span>#}
-{#            </li>#}
-{#          {% endif %}#}
-{##}
-{#          {% if toque_form_session.quantity > 0 %}#}
-{#            <li class="py-2 flex justify-between border-b border-gray-200">#}
-{#              <span>Toque</span>#}
-{#              <span>Qty: {{ toque_form_session.quantity }} - ${{ toque_form_session.quantity|multiply:20 }}</span>#}
-{#            </li>#}
-{#          {% endif %}#}
         </ul>
 
       </ul>

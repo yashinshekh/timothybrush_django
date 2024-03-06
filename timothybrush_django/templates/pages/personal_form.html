@@ -1,5 +1,7 @@
 
 <fieldset>
+
+
   <form method="post" hx-post="{% url 'home' %}" hx-target="this" hx-swap="outerHTML" id="personal_form">
     {% csrf_token %}
     <div class="form-card">

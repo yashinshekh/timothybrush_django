@@ -48,7 +48,7 @@
       </div>
 
 
-      <form method="post" hx-post="{% url 'memorabilia_info' %}"  hx-target="this" hx-swap="outerHTML" id="memorabilia_form">
+      <form method="post" hx-post="{% url 'memorabilia_info' %}"  hx-target="#form-container" hx-swap="outerHTML" id="memorabilia_form">
         <h1 class="text-bold text-3xl">Men's T-shirt ( $25 each )</h1>
 
         <img src="{% static 'images/mens_shirt.jpeg' %}" class="w-full h-auto max-w-xs mx-auto rounded-lg shadow-md m-10"/>
@@ -151,7 +151,7 @@
 
 
         <input type="submit" name="next" class="next action-button" value="Next" />
-        <button type="button" hx-get="{% url 'events_info' %}" hx-target="#form-container" hx-swap="innerHTML" class="previous action-button-previous">Previous</button>
+        <button type="button" hx-get="{% url 'events_info' %}"  hx-swap="innerHTML" class="previous action-button-previous">Previous</button>
       </form>
 
 
