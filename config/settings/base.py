@@ -304,3 +304,4 @@ PAYPAL_TEST = True
 PAYPAL_CLIENT_ID = 'AfNSoY685gJQ-GNCLB-5y9dlnR3SZ7uukhAmOtuocvJvZ1GLOWLFVVwLYi3UNlgzfeBe0D_BiHxOf4Dh'
 PAYPAL_SECRET = 'EN2LzfFvy0J8tuBujmgEXo8WnSC4-Q4EJfNyV24N9rFn-UyiQM2XZ6-9vbJiaqqwIX_L8hQJVK3El_9W'
 
+PAYPAL_BUY_BUTTON_IMAGE = "https://static.vecteezy.com/system/resources/thumbnails/019/787/003/small/buy-now-icon-buy-now-button-on-transparent-background-free-png.png"

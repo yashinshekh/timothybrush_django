@@ -194,10 +194,31 @@
     </div>
 
 
-    <li class="py-2 mt-4 font-semibold">Total Price: ${{ total_price }}</li>
+    <div class="mt-4">
+      <div class="flex justify-between py-2">
+        <span class="font-semibold">Event Total:</span>
+        <span class="font-semibold">$ {{ event_total }}</span>
+      </div>
+      <div class="flex justify-between py-2">
+        <span class="font-semibold">Merchandise Total:</span>
+        <span class="font-semibold">$ {{ merchandise_total }}</span>
+      </div>
+      <div class="flex justify-between py-2 mt-4 border-t border-gray-200">
+        <span class="font-semibold">Total:</span>
+        <span class="font-semibold">$ {{ total_price }}</span>
+      </div>
+    </div>
 
 
-    {{ form.render }}
+
+
+    <div class="flex justify-center min-h-screen">
+      <div class="w-full max-w-md">
+        {{ form.render }}
+      </div>
+    </div>
+
+
 
 
   </div>
