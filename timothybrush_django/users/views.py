@@ -163,6 +163,7 @@ def payment_done(request):
     user_info = request.session.get('user_form_data', {})
     vehicle_info = request.session.get('vehicle_form_data', {})
 
+
     # Create user with default password
     user = User.objects.create(
         first_name=user_info.get('fname'),
