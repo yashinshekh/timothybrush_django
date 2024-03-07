@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -146,7 +147,7 @@ def payment_info(request):
         "amount": event_total+merchandise_total,  # Example amount
         "item_name": "Item Name",
         "invoice": uuid.uuid4(),
-        "currency_code":"USD",
+        "currency_code":"CAD",
         "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
         "return_url": request.build_absolute_uri(reverse('payment_done')),
         "cancel_return": request.build_absolute_uri(reverse('payment_cancelled')),
@@ -154,6 +155,9 @@ def payment_info(request):
 
 
     form = PayPalPaymentsForm(initial=paypal_dict)
+
+    # messages.info(request, 'Payment successful... Continue with google.')
+    # return redirect('account_login')
 
     return render(request,'pages/payment.html',{
         'event_session' : request.session.get('events_form_data'),
@@ -171,6 +175,12 @@ def payment_info(request):
 
 
 def payment_done(request):
+    messages.info(request, 'Payment successful... Continue with google.')
+    return redirect('account_login')
+
+
+
+
     user_info = request.session.get('user_form_data', {})
     vehicle_info = request.session.get('vehicle_form_data', {})
 

@@ -29,65 +29,12 @@ class VechicleForm(forms.Form):
     model = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Model'}), label="Model", required=True)
 
 
-
-# class EventForm(forms.Form):
-#     show = forms.BooleanField(
-#         label="Show 'n Shine ($25.00)",
-#         required=False,
-#         disabled=True,
-#         initial=True,
-#         widget=forms.CheckboxInput(attrs={'class': ''})
-#     )
-#     poker = forms.BooleanField(
-#         label="Poker Run ($5.00)",
-#         required=False,
-#         widget=forms.CheckboxInput(attrs={'class': ''})
-#     )
-#     cruise_night = forms.BooleanField(
-#         label="Cruise Night (Free)",
-#         required=False,
-#         widget=forms.CheckboxInput(attrs={'class': ''})
-#     )
-#     dance = forms.BooleanField(
-#         label="Street Dance (Free)",
-#         required=False,
-#         widget=forms.CheckboxInput(attrs={'class': ''})
-#     )
-#
-#     event_costs = {
-#         'show': 25.00,
-#         'poker': 5.00,
-#         'cruise_night': 0.00,
-#         'dance': 0.00,
-#     }
-#
-#     def calculate_total_cost(self):
-#         total_cost = 0
-#         for field_name, cost in self.event_costs.items():
-#             if self.cleaned_data.get(field_name, False):
-#                 total_cost += cost
-#         return total_cost
-
 class EventForm(forms.Form):
     show_n_shine = forms.BooleanField(label="Show 'n Shine ($25.00)", required=False, initial=True, widget=forms.CheckboxInput(attrs={'class': ''}))
     poker_run = forms.BooleanField(label="Poker Run ($5.00)", required=False, widget=forms.CheckboxInput(attrs={'class': ''}))
     cruise_night = forms.BooleanField(label="Cruise Night (Free)", required=False, widget=forms.CheckboxInput(attrs={'class': ''}))
     street_dance = forms.BooleanField(label="Street Dance (Free)", required=False, widget=forms.CheckboxInput(attrs={'class': ''}))
 
-    # Mapping of each event to its cost
-    EVENT_COSTS = {
-        'show': 25,
-        'poker': 5,
-        'cruise_night': 0,
-        'dance': 0,
-    }
-
-
-
-class MemorabiliaForm(forms.Form):
-    tshirt = forms.BooleanField(label='T-Shirt ($25.00 each)', required=False)
-    toque = forms.BooleanField(label='Toque ($20.00 each)', required=False)
-    cap = forms.BooleanField(label='Baseball Cap ($30.00 each)', required=False)
 
 class MenstshirtForm(forms.Form):
     SIZES = ['Small', 'Medium', 'Large', 'X-Large', '2X-Large', '3X-Large']
@@ -117,7 +64,6 @@ class WomenstshirtForm(forms.Form):
 
         for size in self.SIZES:
             for color in self.COLORS:
-                # Only creating a quantity field for each T-shirt option
                 field_name = f'women_quantity_{size}_{color}'
                 self.fields[field_name] = forms.IntegerField(
                     label=f'{size} {color}',

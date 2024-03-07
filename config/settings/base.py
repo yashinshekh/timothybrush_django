@@ -82,6 +82,7 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
     "paypal.standard.ipn"
 ]
 
@@ -105,12 +106,12 @@ MIGRATION_MODULES = {"sites": "timothybrush_django.contrib.sites.migrations"}
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
-    # "allauth.account.auth_backends.AuthenticationBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = "users:redirect"
+LOGIN_REDIRECT_URL = "home"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 LOGIN_URL = "account_login"
 
@@ -276,15 +277,18 @@ ACCOUNT_USERNAME_REQUIRED = False
 # https://docs.allauth.org/en/latest/account/configuration.html
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 # https://docs.allauth.org/en/latest/account/configuration.html
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = "none"
 # https://docs.allauth.org/en/latest/account/configuration.html
 ACCOUNT_ADAPTER = "timothybrush_django.users.adapters.AccountAdapter"
 # https://docs.allauth.org/en/latest/account/forms.html
 ACCOUNT_FORMS = {"signup": "timothybrush_django.users.forms.UserSignupForm"}
 # https://docs.allauth.org/en/latest/socialaccount/configuration.html
-SOCIALACCOUNT_ADAPTER = "timothybrush_django.users.adapters.SocialAccountAdapter"
+# SOCIALACCOUNT_ADAPTER = "timothybrush_django.users.adapters.SocialAccountAdapter"
+SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
+# SOCIALACCOUNT_ADAPTER = "timothybrush_django.users.adapters.SocialAccountAdapter"
 # https://docs.allauth.org/en/latest/socialaccount/configuration.html
 SOCIALACCOUNT_FORMS = {"signup": "timothybrush_django.users.forms.UserSocialSignupForm"}
+SOCIALACCOUNT_LOGIN_ON_GET = True
 # django-compressor
 # ------------------------------------------------------------------------------
 # https://django-compressor.readthedocs.io/en/latest/quickstart/#installation
@@ -305,3 +309,23 @@ PAYPAL_CLIENT_ID = 'AfNSoY685gJQ-GNCLB-5y9dlnR3SZ7uukhAmOtuocvJvZ1GLOWLFVVwLYi3U
 PAYPAL_SECRET = 'EN2LzfFvy0J8tuBujmgEXo8WnSC4-Q4EJfNyV24N9rFn-UyiQM2XZ6-9vbJiaqqwIX_L8hQJVK3El_9W'
 
 PAYPAL_BUY_BUTTON_IMAGE = "https://static.vecteezy.com/system/resources/thumbnails/019/787/003/small/buy-now-icon-buy-now-button-on-transparent-background-free-png.png"
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '300674289851-ucps61qdu98n4pvoav7av0flpbg4cfgn.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+SOCIALACCOUNT_AUTO_SIGNUP = True

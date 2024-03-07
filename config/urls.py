@@ -9,6 +9,8 @@ urlpatterns = [
     path("",include("timothybrush_django.shop.urls")),
     path("",include("timothybrush_django.users.urls")),
     path("",include("timothybrush_django.events.urls")),
+    path("accounts/", include("allauth.urls")),
+    path('accounts/', include('allauth.socialaccount.urls')),
     # path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     path("about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
     # Django Admin, use {% url 'admin:index' %}
