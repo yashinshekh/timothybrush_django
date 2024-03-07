@@ -121,8 +121,14 @@ def payment_info(request):
     basketball_form_session = request.session.get('basketball_form', {})
     toque_form_session = request.session.get('toque_form', {})
 
-    event_total = EventForm(initial=event_form_session).calculate_total_cost()
+    event_costs = {
+        'show_n_shine': 25,
+        'poker_run': 5,
+        'cruise_night': 0,
+        'street_dance': 0,
+    }
 
+    event_total = sum(event_costs[key] for key, value in event_form_session.items() if value)
 
     merchandise_total = 0
     for quantity in mens_form_session.values():

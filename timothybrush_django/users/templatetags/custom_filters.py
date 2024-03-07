@@ -23,3 +23,8 @@ def cut(value, arg):
     """Removes all values of arg from the given string."""
     return value.replace(arg, '')
 
+
+@register.filter(name='prettify_key')
+def prettify_key(value):
+    # Replace underscores with spaces and capitalize each word
+    return value.replace('_', ' ').title()

@@ -8,45 +8,44 @@
     <div id="event-summary" class="bg-white shadow-md rounded-lg p-6 mb-6">
       <ul class="list-disc pl-5">
 
-        <li class="py-2 list-none">
-          <div class="flex items-start">
-            <img src="{% static 'images/events/SeasideCruizers.png' %}" alt="{{ key }}" class="h-24 w-24 mr-4"> <!-- Adjust image size as needed -->
-            <span class="flex-1 text-bold text-3xl">Show 'n Shine</span>
-          </div>
-          <div class="border-b border-gray-200 mt-2"></div>
-          <div class="border-t border-gray-200 pt-2">
-            <div class="flex justify-between items-end">
-              <div class="text-center">
-                <div>Price</div>
-                <div>25 CAD</div>
-              </div>
-              <div class="text-center">
-                <div>Total Price</div>
-                <div>25 CAD</div>
-              </div>
-            </div>
-          </div>
-        </li>
-
-
         {% if event_session %}
           {% for key, value in event_session.items %}
             {% if value and key != "show" %}
               <li class="py-2 list-none">
                 <div class="flex items-start">
                   <img src="{% static 'images/events/'|add:key|add:'.png' %}" alt="{{ key }}" class="h-24 w-24 mr-4">
-                  <span class="flex-1 font-bold text-2xl">{{ key }}</span>
+                  <span class="flex-1 font-bold text-2xl">{{ key|prettify_key }}</span>
                 </div>
                 <div class="border-b border-gray-200 mt-2"></div>
                 <div class="border-t border-gray-200 pt-2">
                   <div class="flex justify-between items-end">
                     <div class="text-center">
                       <div>Price</div>
-                      <div>{{ value.price }} CAD</div>
+                      <div>
+                        {% if key == 'show_n_shine' %}
+                          25 CAD
+                        {% elif key == 'poker_run' %}
+                          5 CAD
+                        {% elif key == 'cruise_night' or key == 'street_dance' %}
+                          0 CAD
+                        {% else %}
+                          {{ value.price }} CAD
+                        {% endif %}
+                      </div>
                     </div>
                     <div class="text-center">
                       <div>Total Price</div>
-                      <div>{{ value.total_price }} CAD</div>
+                      <div>
+                        {% if key == 'show_n_shine' %}
+                          25 CAD
+                        {% elif key == 'poker_run' %}
+                          5 CAD
+                        {% elif key == 'cruise_night' or key == 'street_dance' %}
+                          0 CAD
+                        {% else %}
+                          {{ value.price }} CAD
+                        {% endif %}
+                      </div>
                     </div>
                   </div>
                 </div>

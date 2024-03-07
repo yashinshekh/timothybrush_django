@@ -69,10 +69,10 @@ class VechicleForm(forms.Form):
 #         return total_cost
 
 class EventForm(forms.Form):
-    show = forms.BooleanField(label="Show 'n Shine ($25.00)", required=False, initial=True, widget=forms.CheckboxInput(attrs={'class': ''}))
-    poker = forms.BooleanField(label="Poker Run ($5.00)", required=False, widget=forms.CheckboxInput(attrs={'class': ''}))
+    show_n_shine = forms.BooleanField(label="Show 'n Shine ($25.00)", required=False, initial=True, widget=forms.CheckboxInput(attrs={'class': ''}))
+    poker_run = forms.BooleanField(label="Poker Run ($5.00)", required=False, widget=forms.CheckboxInput(attrs={'class': ''}))
     cruise_night = forms.BooleanField(label="Cruise Night (Free)", required=False, widget=forms.CheckboxInput(attrs={'class': ''}))
-    dance = forms.BooleanField(label="Street Dance (Free)", required=False, widget=forms.CheckboxInput(attrs={'class': ''}))
+    street_dance = forms.BooleanField(label="Street Dance (Free)", required=False, widget=forms.CheckboxInput(attrs={'class': ''}))
 
     # Mapping of each event to its cost
     EVENT_COSTS = {
@@ -82,17 +82,6 @@ class EventForm(forms.Form):
         'dance': 0,
     }
 
-    def calculate_total_cost(self):
-        if self.is_bound and self.is_valid():
-            data = self.cleaned_data
-        else:
-            data = self.initial
-
-        total_cost = 0
-        for event, cost in self.EVENT_COSTS.items():
-            if data.get(event, False):  # Check if the event was selected
-                total_cost += cost
-        return total_cost
 
 
 class MemorabiliaForm(forms.Form):
