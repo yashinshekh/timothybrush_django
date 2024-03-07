@@ -30,29 +30,69 @@ class VechicleForm(forms.Form):
 
 
 
+# class EventForm(forms.Form):
+#     show = forms.BooleanField(
+#         label="Show 'n Shine ($25.00)",
+#         required=False,
+#         disabled=True,
+#         initial=True,
+#         widget=forms.CheckboxInput(attrs={'class': ''})
+#     )
+#     poker = forms.BooleanField(
+#         label="Poker Run ($5.00)",
+#         required=False,
+#         widget=forms.CheckboxInput(attrs={'class': ''})
+#     )
+#     cruise_night = forms.BooleanField(
+#         label="Cruise Night (Free)",
+#         required=False,
+#         widget=forms.CheckboxInput(attrs={'class': ''})
+#     )
+#     dance = forms.BooleanField(
+#         label="Street Dance (Free)",
+#         required=False,
+#         widget=forms.CheckboxInput(attrs={'class': ''})
+#     )
+#
+#     event_costs = {
+#         'show': 25.00,
+#         'poker': 5.00,
+#         'cruise_night': 0.00,
+#         'dance': 0.00,
+#     }
+#
+#     def calculate_total_cost(self):
+#         total_cost = 0
+#         for field_name, cost in self.event_costs.items():
+#             if self.cleaned_data.get(field_name, False):
+#                 total_cost += cost
+#         return total_cost
+
 class EventForm(forms.Form):
-    show = forms.BooleanField(
-        label="Show 'n Shine ($25.00)",
-        required=False,
-        disabled=True,
-        initial=True,
-        widget=forms.CheckboxInput(attrs={'class': ''})
-    )
-    poker = forms.BooleanField(
-        label="Poker Run ($5.00)",
-        required=False,
-        widget=forms.CheckboxInput(attrs={'class': ''})
-    )
-    cruise_night = forms.BooleanField(
-        label="Cruise Night (Free)",
-        required=False,
-        widget=forms.CheckboxInput(attrs={'class': ''})
-    )
-    dance = forms.BooleanField(
-        label="Street Dance (Free)",
-        required=False,
-        widget=forms.CheckboxInput(attrs={'class': ''})
-    )
+    show = forms.BooleanField(label="Show 'n Shine ($25.00)", required=False, initial=True, widget=forms.CheckboxInput(attrs={'class': ''}))
+    poker = forms.BooleanField(label="Poker Run ($5.00)", required=False, widget=forms.CheckboxInput(attrs={'class': ''}))
+    cruise_night = forms.BooleanField(label="Cruise Night (Free)", required=False, widget=forms.CheckboxInput(attrs={'class': ''}))
+    dance = forms.BooleanField(label="Street Dance (Free)", required=False, widget=forms.CheckboxInput(attrs={'class': ''}))
+
+    # Mapping of each event to its cost
+    EVENT_COSTS = {
+        'show': 25,
+        'poker': 5,
+        'cruise_night': 0,
+        'dance': 0,
+    }
+
+    def calculate_total_cost(self):
+        if self.is_bound and self.is_valid():
+            data = self.cleaned_data
+        else:
+            data = self.initial
+
+        total_cost = 0
+        for event, cost in self.EVENT_COSTS.items():
+            if data.get(event, False):  # Check if the event was selected
+                total_cost += cost
+        return total_cost
 
 
 class MemorabiliaForm(forms.Form):
@@ -78,26 +118,6 @@ class MenstshirtForm(forms.Form):
                     }))
 
 
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #
-    #     for size in self.SIZES:
-    #         for color in self.COLORS:
-    #             shirt_key = f'{size}_{color}'
-    #             quantity_key = f'quantity_{size}_{color}'
-
-                # shirt_selected = cleaned_data.get(shirt_key)
-                # quantity = cleaned_data.get(quantity_key, 0)
-
-                # if shirt_selected and quantity <= 0:
-                #     self.add_error(quantity_key, f'Please enter a valid quantity for {size} {color} T-Shirt.')
-                #
-                # if not shirt_selected and quantity > 0:
-                #     self.add_error(shirt_key, f'Please select the {size} {color} T-Shirt before specifying a quantity.')
-
-        # return cleaned_data
-
-
 
 class WomenstshirtForm(forms.Form):
     SIZES = ['Small', 'Medium', 'Large', 'X-Large', '2X-Large']
@@ -116,26 +136,6 @@ class WomenstshirtForm(forms.Form):
                     widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
 
 
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #
-    #     for size in self.SIZES:
-    #         for color in self.COLORS:
-    #             shirt_key = f'{size}_{color}'
-    #             quantity_key = f'quantity_{size}_{color}'
-    #
-    #             shirt_selected = cleaned_data.get(shirt_key)
-    #             quantity = cleaned_data.get(quantity_key, 0)
-    #
-    #             # If a shirt is selected but quantity is 0, or vice versa, raise a validation error
-    #             if shirt_selected and quantity <= 0:
-    #                 self.add_error(quantity_key, f'Please enter a valid quantity for {size} {color} T-Shirt.')
-    #
-    #             if not shirt_selected and quantity > 0:
-    #                 self.add_error(shirt_key, f'Please select the {size} {color} T-Shirt before specifying a quantity.')
-    #
-    #     return cleaned_data
-
 
 class ToquesForm(forms.Form):
     COLORS = [
@@ -152,22 +152,6 @@ class ToquesForm(forms.Form):
                 widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
 
 
-
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #
-    #     for color in self.COLORS:
-    #         product_key = color.replace(" ", "_")
-    #         toque_key = f'quantity_{product_key}'
-    #
-    #         quantity = cleaned_data.get(toque_key, 0)
-    #
-    #         # If quantity is specified as 0, no error is raised, but this can be adjusted based on requirements
-    #         if quantity < 0:
-    #             self.add_error(toque_key, f'Please enter a valid quantity for {color}.')
-    #
-    #     return cleaned_data
-
 class BasketballForm(forms.Form):
     COLORS = [
         'Black Ball Cap','Beige Ball Cap'
@@ -181,23 +165,6 @@ class BasketballForm(forms.Form):
                 label=color,
                 required=False, min_value=0, max_value=10,
                 widget=forms.NumberInput(attrs={'class': 'quantity-input'}))
-
-
-
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #
-    #     for color in self.COLORS:
-    #         product_key = color.replace(" ", "_")
-    #         toque_key = f'quantity_{product_key}'
-    #
-    #         quantity = cleaned_data.get(toque_key, 0)
-    #
-    #         # If quantity is specified as 0, no error is raised, but this can be adjusted based on requirements
-    #         if quantity < 0:
-    #             self.add_error(toque_key, f'Please enter a valid quantity for {color}.')
-    #
-    #     return cleaned_data
 
 
 

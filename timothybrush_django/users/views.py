@@ -115,26 +115,29 @@ def tos(request):
 
 
 def payment_info(request):
+    event_form_session = request.session.get('events_form_data', {})
     mens_form_session = request.session.get('mens_tshirt_form', {})
     womens_form_session = request.session.get('womens_tshirt_form', {})
-    basketball_form_session = request.session.get('basketball_form', {'quantity': 0})
-    toque_form_session = request.session.get('toque_form', {'quantity': 0})
+    basketball_form_session = request.session.get('basketball_form', {})
+    toque_form_session = request.session.get('toque_form', {})
+
+    event_total = EventForm(initial=event_form_session).calculate_total_cost()
 
 
-    # print(request.session.get('events_form_data').items())
-
-    total_price = 0
+    merchandise_total = 0
     for quantity in mens_form_session.values():
-        total_price += 25 * (quantity or 0)
+        merchandise_total += 25 * (quantity or 0)
     for quantity in womens_form_session.values():
-        total_price += 25 * (quantity or 0)
-    total_price += 30 * (basketball_form_session.get('quantity', 0) or 0)
-    total_price += 20 * (toque_form_session.get('quantity', 0) or 0)
+        merchandise_total += 25 * (quantity or 0)
+    for quantity in basketball_form_session.values():
+        merchandise_total += 20 * (quantity or 0)
+    for quantity in toque_form_session.values():
+        merchandise_total += 15 * (quantity or 0)
 
 
     paypal_dict = {
         "business": PAYPAL_RECEIVER_EMAIL,
-        "amount": total_price,  # Example amount
+        "amount": event_total+merchandise_total,  # Example amount
         "item_name": "Item Name",
         "invoice": uuid.uuid4(),
         "currency_code":"USD",
@@ -152,8 +155,10 @@ def payment_info(request):
         'womens_form_session':request.session.get('womens_tshirt_form'),
         'basketball_form_session': request.session.get('basketball_form'),
         'toque_form_session':request.session.get('toque_form'),
-        'total_price':total_price,
-        'form':form
+        'total_price':event_total+merchandise_total,
+        'form':form,
+        'event_total':event_total,
+        'merchandise_total':merchandise_total
 
     })
 
