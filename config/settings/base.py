@@ -298,7 +298,7 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 # Your stuff...
 # ------------------------------------------------------------------------------
 
-SESSION_COOKIE_AGE = 720000
+SESSION_COOKIE_AGE = 7200
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_SAVE_EVERY_REQUEST = True
 
