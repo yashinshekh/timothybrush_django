@@ -10,9 +10,7 @@
           <h1 id="heading" class="text-3xl">Seaside Cruizers <span style="white-space:nowrap">2024 Registration</span></h1>
           <p>Please complete each section to register</p>
           <div id="msform">
-            {#          <form id="msform" method="post">#}
 
-            <!-- progressbar -->
             <ul id="progressbar">
               <li class="active" id="personal"><strong>Personal</strong></li>
               <li id="vehicle"><strong>Vehicle</strong></li>
@@ -21,12 +19,12 @@
               <li id="payment"><strong>Payment</strong></li>
             </ul>
             <div class="progress">
-              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+              style="width: 20%"></div>
             </div>
             <br>
 
             {% include 'pages/personal_form.html' with personal_form=personal_form %}
-{#            {% include 'pages/memorabilia_form.html' with memorabilia_form=memorabilia_form %}#}
 
           </div>
         </div>
@@ -36,50 +34,32 @@
 
   <script>
     $(document).on("htmx:afterSwap", function(event) {
+      var progressBar = document.querySelector('.progress-bar');
+      var currentFormId = event.target.querySelector('form').getAttribute('id');
+      var progressMapping = {
+        'personal_form': 20,
+        'vehicle_form': 40,
+        'events_form': 60,
+        'merchandise_form': 80,
+        'payment_form': 100
+      };
+      var newProgressValue = progressMapping[currentFormId] || 0;
 
       $("#progressbar li").removeClass('active');
 
-      console.log($(event.detail.target.id))
-      var swappedElement = $(event.detail.target);
-      var formId = swappedElement.is('form') ? swappedElement.attr('id') : swappedElement.find('form').attr('id');
-      if (formId) {
-        updateProgressBar(formId);
-      } else {
-        console.error("Form ID not found after swap.");
+      if (newProgressValue > 0) {
+        var activeSelectors = [];
+        if (newProgressValue >= 20) activeSelectors.push("#personal");
+        if (newProgressValue >= 40) activeSelectors.push("#vehicle");
+        if (newProgressValue >= 60) activeSelectors.push("#events");
+        if (newProgressValue >= 80) activeSelectors.push("#merchandise");
+        if (newProgressValue === 100) $("#progressbar li").addClass('active');
+        else $(activeSelectors.join(",")).addClass('active');
       }
 
-      console.log($(event.detail.target).find('form').attr('id'))
+      progressBar.style.width = newProgressValue + '%';
+      progressBar.setAttribute('aria-valuenow', newProgressValue);
     });
-
-    function updateProgressBar(currentFormId) {
-      // Reset all steps to inactive initially
-
-      console.log(currentFormId)
-      // Determine which steps to activate based on the currentFormId
-      switch (currentFormId) {
-        case 'personal_form':
-          $("#personal,#vehicle").addClass('active');
-          break
-        case 'vechicle_form': // Assuming the ID is 'vehicle_form' for the vehicle information form
-          $("#personal,#vehicle,#events").addClass('active');
-          break;
-        case 'events_form': // Assuming the ID is 'events_form' for the events form
-          $("#personal,#vehicle,#events,#merchandise").addClass('active');
-          break;
-        case 'merchandise': // Assuming the ID for merchandise form
-          $("#personal,#vehicle,#events,#merchandise,#payment").addClass('active');
-          break;
-        case 'payment': // Assuming the ID for payment form
-          $("#progressbar li").addClass('active'); // All steps are active for the payment form
-          break;
-              // Add more cases as needed for other forms
-        default:
-          // Handle any default case if needed
-          break;
-      }
-    }
-
-
 
 
   </script>

@@ -1,7 +1,7 @@
 <div id="form-container">
 <fieldset>
 {#  <form method="post" hx-post="{% url 'tos' %}"  hx-target="this" hx-swap="#outerHTML" id="payment">#}
-  <form method="post" action="{% url 'tos' %}" id="payment">
+  <form method="post" action="{% url 'tos' %}" id="payment_form">
   {% csrf_token %}
   <div class="form-card">
     <div class="row">
