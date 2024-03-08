@@ -1,9 +1,11 @@
 # from django.conf import settings
 from django.contrib import admin
-from .models import User
+from .models import User,Profile,Merchandise
 
 
 admin.site.register(User)
+admin.site.register(Profile)
+admin.site.register(Merchandise)
 
 
 # from django.contrib.auth import admin as auth_admin

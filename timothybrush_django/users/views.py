@@ -15,7 +15,7 @@ import uuid
 from django.contrib.auth.decorators import login_required
 
 from .forms import PersonalForm, VechicleForm, EventForm, TOSForm, MenstshirtForm,WomenstshirtForm,ToquesForm,BasketballForm
-from .models import Profile
+from .models import Profile,Vehicle,Merchandise
 
 User = get_user_model()
 
@@ -128,6 +128,8 @@ def payment_info(request):
     basketball_form_session = request.session.get('basketball_form', {})
     toque_form_session = request.session.get('toque_form', {})
 
+    print(mens_form_session)
+
     event_costs = {
         'show_n_shine': 25,
         'poker_run': 5,
@@ -162,8 +164,8 @@ def payment_info(request):
 
     form = PayPalPaymentsForm(initial=paypal_dict)
 
-    messages.info(request, 'Payment successful... Continue with google.')
-    return redirect('account_login')
+    # messages.info(request, 'Payment successful... Continue with google.')
+    # return redirect('account_login')
 
     return render(request,'pages/payment.html',{
         'event_session' : request.session.get('events_form_data'),
@@ -187,47 +189,97 @@ def payment_done(request):
 
 @login_required
 def verify(request):
-
     user = request.user
-    profile,created = Profile.objects.get_or_create(user=user)
+    profile, created = Profile.objects.get_or_create(user=user)
 
     if created:
-        return redirect('dashboard')
+        profile_form_session = request.session.get('personal_form_data', {})
+        event_form_session = request.session.get('events_form_data', {})
+        vehicle_form_session = request.session.get('vechicle_form_data', {})
+        mens_form_session = request.session.get('mens_tshirt_form', {})
+        womens_form_session = request.session.get('womens_tshirt_form', {})
+        basketball_form_session = request.session.get('basketball_form', {})
+        toque_form_session = request.session.get('toque_form', {})
 
-    else:
+        profile.fname = profile_form_session.get('fname', '')
+        profile.lname = profile_form_session.get('lname', '')
+        profile.email = profile_form_session.get('email', '')
+        profile.phone = profile_form_session.get('phone', '')
+        profile.street = profile_form_session.get('street', '')
+        profile.city = profile_form_session.get('city', '')
+        profile.prov = profile_form_session.get('prov', '')
+        profile.postal = profile_form_session.get('postal', '')
 
-        pass
+        profile.show_n_shine_participation = event_form_session.get('show_n_shine', False)
+        profile.poker_run_participation = event_form_session.get('poker_run', False)
+        profile.cruise_night_participation = event_form_session.get('cruise_night', False)
+        profile.street_dance_participation = event_form_session.get('street_dance', False)
 
-    user_info = request.session.get('user_form_data', {})
-    vehicle_info = request.session.get('vehicle_form_data', {})
+        profile.save()
+
+        Vehicle.objects.create(
+            profile=profile,
+            year=vehicle_form_session.get('year', ''),
+            make=vehicle_form_session.get('make', ''),
+            model=vehicle_form_session.get('model', '')
+        )
+
+        for item, quantity in mens_form_session.items():
+            if quantity and quantity > 0:
+                _, _, size, color = item.split('_')
+                item_type = "Men's T-Shirt"
+
+                Merchandise.objects.create(
+                    profile=profile,
+                    item_type=item_type,
+                    size=size,
+                    color=color,
+                    quantity=quantity
+                )
+
+        for item, quantity in womens_form_session.items():
+            if quantity and quantity > 0:
+                _, _, size, color = item.split('_')
+                item_type = "Women's T-Shirt"
+
+                Merchandise.objects.create(
+                    profile=profile,
+                    item_type=item_type,
+                    size=size,
+                    color=color,
+                    quantity=quantity
+                )
 
 
-    # Create user with default password
-    user = User.objects.create(
-        first_name=user_info.get('fname'),
-        last_name=user_info.get('lname'),
-        email=user_info.get('email'),
-        username=user_info.get('email'),  # or generate a unique username
-        password=make_password('defaultpassword')  # Set a default password or generate one
-    )
+        for item, quantity in toque_form_session.items():
+            if quantity and quantity > 0:
+                _, _, color, _ = item.split('_')
+                item_type = "Toque"
 
-    # Create or update the profile
-    profile, created = Profile.objects.update_or_create(
-        user=user,
-        defaults={
-            'phone': user_info.get('phone'),
-            'street': user_info.get('street'),
-            'city': user_info.get('city'),
-            'province': user_info.get('prov'),
-            'postal_code': user_info.get('postal'),
-            # Add additional fields as needed
-        }
-    )
+                Merchandise.objects.create(
+                    profile=profile,
+                    item_type=item_type,
+                    size='N/A',
+                    color=color,
+                    quantity=quantity
+                )
 
-    del request.session['user_form_data']
-    del request.session['vehicle_form_data']
+        for item, quantity in basketball_form_session.items():
+            if quantity and quantity > 0:
+                _, _, color, _, _ = item.split('_')
+                item_type = "Basketball Cap"
 
-    return HttpResponse("Payment completed successfully.")
+                Merchandise.objects.create(
+                    profile=profile,
+                    item_type=item_type,
+                    size='N/A',
+                    color=color,
+                    quantity=quantity
+                )
+
+
+    return redirect('home')
+
 
 def payment_cancelled(request):
     return HttpResponse("Payment cancelled.")

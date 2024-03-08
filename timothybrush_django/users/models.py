@@ -59,8 +59,8 @@ class Vehicle(models.Model):
 
 class Merchandise(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='merchandise')
-    item_type = models.CharField(max_length=100)  # e.g., "Men's T-Shirt", "Women's T-Shirt", "Toque", "Basketball Cap"
-    size = models.CharField(max_length=10, blank=True, null=True)  # Not applicable for some items
+    item_type = models.CharField(max_length=100)
+    size = models.CharField(max_length=10, blank=True, null=True)
     color = models.CharField(max_length=50)
     quantity = models.IntegerField(default=0)
 
