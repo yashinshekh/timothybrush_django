@@ -8,31 +8,37 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
 from django.shortcuts import render, redirect
-
 from config.settings.base import PAYPAL_RECEIVER_EMAIL
 from django.contrib.auth.hashers import make_password
 from paypal.standard.forms import PayPalPaymentsForm
 import uuid
+from django.contrib.auth.decorators import login_required
+
 from .forms import PersonalForm, VechicleForm, EventForm, TOSForm, MenstshirtForm,WomenstshirtForm,ToquesForm,BasketballForm
+from .models import Profile
 
 User = get_user_model()
 
 
 def home(request):
-    if request.method == 'POST':
-        personal_form = PersonalForm(request.POST)
-        if personal_form.is_valid():
-            request.session['personal_form_data'] = personal_form.cleaned_data
-            vechicle_form = VechicleForm(initial=request.session.get('vechicle_form_data')) if request.session.get('vechicle_form_data') else VechicleForm()
-            next_step_html = render_to_string('pages/vechicle_form.html', {'vechicle_form': vechicle_form}, request=request)
-            return HttpResponse(next_step_html)
-    else:
-        personal_form = PersonalForm(initial=request.session.get('personal_form_data')) if request.session.get('personal_form_data') else PersonalForm()
+    if request.user.is_authenticated:
+        return redirect('dashboard')
 
-    if request.headers.get('HX-Request', False):
-        return render(request, 'pages/personal_form.html', {'personal_form': personal_form})
     else:
-        return render(request, 'pages/home.html', {'personal_form': personal_form})
+        if request.method == 'POST':
+            personal_form = PersonalForm(request.POST)
+            if personal_form.is_valid():
+                request.session['personal_form_data'] = personal_form.cleaned_data
+                vechicle_form = VechicleForm(initial=request.session.get('vechicle_form_data')) if request.session.get('vechicle_form_data') else VechicleForm()
+                next_step_html = render_to_string('pages/vechicle_form.html', {'vechicle_form': vechicle_form}, request=request)
+                return HttpResponse(next_step_html)
+        else:
+            personal_form = PersonalForm(initial=request.session.get('personal_form_data')) if request.session.get('personal_form_data') else PersonalForm()
+
+        if request.headers.get('HX-Request', False):
+            return render(request, 'pages/personal_form.html', {'personal_form': personal_form})
+        else:
+            return render(request, 'pages/home.html', {'personal_form': personal_form})
 
 
 def vechicle_info(request):
@@ -156,8 +162,8 @@ def payment_info(request):
 
     form = PayPalPaymentsForm(initial=paypal_dict)
 
-    # messages.info(request, 'Payment successful... Continue with google.')
-    # return redirect('account_login')
+    messages.info(request, 'Payment successful... Continue with google.')
+    return redirect('account_login')
 
     return render(request,'pages/payment.html',{
         'event_session' : request.session.get('events_form_data'),
@@ -179,7 +185,18 @@ def payment_done(request):
     return redirect('account_login')
 
 
+@login_required
+def verify(request):
 
+    user = request.user
+    profile,created = Profile.objects.get_or_create(user=user)
+
+    if created:
+        return redirect('dashboard')
+
+    else:
+
+        pass
 
     user_info = request.session.get('user_form_data', {})
     vehicle_info = request.session.get('vehicle_form_data', {})
@@ -216,6 +233,9 @@ def payment_cancelled(request):
     return HttpResponse("Payment cancelled.")
 
 
+
+def dashboard(request):
+    return render(request,'profile/dashboard.html')
 
 
 

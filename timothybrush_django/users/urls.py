@@ -12,6 +12,8 @@ urlpatterns = [
     path('tos/',view=tos,name="tos"),
     path('payment/',view=payment_info,name="payment_info"),
     path('payment_done/', payment_done, name='payment_done'),
+    path('verify/', verify, name='verify'),
+    path('dashboard/', dashboard, name='dashboard'),
     path('payment_cancelled/', payment_cancelled, name='payment_cancelled'),
     path('paypal/', include('paypal.standard.ipn.urls')),
 
